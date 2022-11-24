@@ -17,15 +17,27 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.js');
+/* const server = require('./src/app.js'); */
 /* const { conn } = require('./src/db.js'); */
-const {
+/* const {
   PORT
-} = process.env;
+} = process.env; */
 
 // Syncing all the models at once.
-/* conn.sync({ force: true }).then(() => { */
+/* conn.sync({ force: true }).then(() => {
   server.listen(3000, () => {
-    console.log('%s listening at 3000'); // eslint-disable-line no-console
+    console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
-/* }); */
+}); */
+
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
