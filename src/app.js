@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const cors = require('cors');
+const productRouter = require('./routes/products.js');
+
 
 const server = express();
 
@@ -16,6 +18,8 @@ server.use(morgan('dev'));
 
 server.use(cors());
 server.use('/', routes);
+
+server.use('/products', productRouter);
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

@@ -1,9 +1,9 @@
-const { Router } = require("express");
+const { Router } = require('express');
+const { getProducts } = require('../controllers/productsController.js');
 
-const router = Router();
+const productRouter = Router();
 
-router.get("/", async (req, res) => {
-  res.json({ mensaje: " conectado a la api", products : [] });
-});
+productRouter.get('/', getProducts);
 
-module.exports = router;
+
+module.exports = productRouter;

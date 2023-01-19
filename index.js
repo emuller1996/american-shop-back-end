@@ -1,43 +1,18 @@
-//                       _oo0oo_
-//                      o8888888o
-//                      88" . "88
-//                      (| -_- |)
-//                      0\  =  /0
-//                    ___/`---'\___
-//                  .' \\|     |// '.
-//                 / \\|||  :  |||// \
-//                / _||||| -:- |||||- \
-//               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
-//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
-//                       `=---='
-//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/* const server = require('./src/app.js'); */
-/* const { conn } = require('./src/db.js'); */
-/* const {
-  PORT
-} = process.env; */
+const app = require('./src/app.js');
+const { db } = require('./src/db.js');
+const chargeProducts = require('./src/utils/chargeProducts.js');
 
-// Syncing all the models at once.
-/* conn.sync({ force: true }).then(() => {
-  server.listen(3000, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+
+db.sync({ force: true })
+  .then(()=>{
+    chargeProducts();
+    console.log("Database sync");
   });
-}); */
 
-const express = require('express')
-const app = express()
-const port = 3000
+app.listen(process.env.PORT, () => {
+console.log(`Server listening at port ${process.env.PORT}`); // eslint-disable-line no-console
+//para desactivar el bot solo comentar la siguiente linea
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+//client.initialize();
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+});
