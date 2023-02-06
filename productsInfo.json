@@ -48,32 +48,11 @@
     "image": "https://cdn-images.farfetch-contents.com/13/55/57/03/13555703_21559101_1000.jpg",
     "description": "Level up with powerful JBL Quantum Duo speakers. Get right into the action with perfectly tuned sound and unique lighting effects. Identify fire attacks, hear your enemies stalking you and experience the action. Featuring JBL surround sound and Dolby Digital technology in a modern, distinctive design.",
     "price": 200,
-    "CategoryId": 5,
+    "CategoryId": 2,
     "discountPercentage": 0,
     "rating": 0,
     "stock": 22,
     "brand": "JBL"
-  },
-  {
-    "name": "Portable Speakers Stromberg Flexy",
-    "image": "https://tecnocompro.com/pub/media/catalog/product/cache/f2fda30fa08589bc3d50957538fec3cf/p/a/parlante-port_til-stromberg-flexy-2.jpg",
-    "description": "Stromberg Flexy, a very urban speaker that sets up the party with friends anywhere, with a graffiti print that makes a difference, with 100 watts of power and portable.",
-    "price": 100,
-    "CategoryId": 5,
-    "discountPercentage": 0,
-    "rating": 0,
-    "stock": 23,
-    "brand": "Stromberg"
-  },
-  {
-    "name": "Portable Speakers JBL GO 3 Bluetooh Gray",
-    "image": "https://tecnocompro.com/pub/media/catalog/product/cache/f2fda30fa08589bc3d50957538fec3cf/j/b/jbl_go_3_gray_6.jpg",
-    "description": "The JBL Go 3 features striking styling and full, sophisticated JBL Pro sound. With its striking new fashion-forward design, colorful fabrics and expressive details, it's the must-have accessory for your next outing. You will vibrate to the sound of your music with JBL Pro sound.",
-    "price": 70,
-    "CategoryId": 5,
-    "discountPercentage": 0,
-    "rating": 0,
-    "stock": 25,
-    "brand": "JBL"
   }
+  
 ]

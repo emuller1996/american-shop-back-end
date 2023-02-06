@@ -40,8 +40,52 @@ const getProducts = async (req, res) => {
     }
 }
 
+const getProductById = async (req, res) => {
+    const { id } = req.params;
+    let idNumber = Number.parseInt(id);
+    if(!Number.isNaN(idNumber)){
+        idNumber = id;
+        try{
+            const product = await Product.findByPk(idNumber, {
+                attributes: {}
+            });
+            if(product) return res.status(200).json(product);
+        }catch(error){
+            res.json(error.message)
+        }
+    } 
+    res.status(404).json({ error: "product ID not found or invalid" });
+}
+
+const createProduct = async (req, res) => {
+    try {
+        const { name, image, description, price, CategoryId, stock, brand } = req.body; 
+          console.log(req.body)
+        if( !name || !image || !description || !price ||  !stock || !brand) throw(Error('Invalid inputs'));
+      
+        let productData = await Product.findAll({
+          where:{
+          name,
+          brand,
+          stock,
+         }
+        });
+      
+        if(productData.length > 0) throw(Error('Product already in database'));
+      
+        let product = await Product.create({ name, image, description, price, stock, brand });
+      
+        res.status(200).json({ message : 'Producto Creado Correctamente', product: product});
+      
+       } catch (error) {
+        res.status(404).json({error: error.message});
+       }
+}
+
 
 
 module.exports = {
-    getProducts
+    getProducts,
+    getProductById,
+    createProduct
 }

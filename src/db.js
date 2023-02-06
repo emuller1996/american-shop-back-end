@@ -1,5 +1,7 @@
 const { Sequelize } = require('sequelize');
 const modelProduct = require('./models/Product.js');
+const modelCategory = require('./models/Category.js');
+
 require('dotenv').config();
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT } = process.env;
@@ -11,11 +13,19 @@ const sequelize = new Sequelize(`postgres://${ DB_USER }:${ DB_PASSWORD }@${ DB_
 });
 
 modelProduct(sequelize);
+modelCategory(sequelize);
 
-const { Product } = sequelize.models;
+
+const { Product, Category } = sequelize.models;
+
+
+Category.hasMany(Product);
+Product.belongsTo(Category);
+
 
 
 module.exports = {
   Product,
+  Category,
   db: sequelize,
 };

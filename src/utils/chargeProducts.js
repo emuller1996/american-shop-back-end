@@ -1,9 +1,14 @@
 const data = require('./../../productsInfo.json');
-const { Product } = require('../db.js');
+const { Product,Category } = require('../db.js');
 
 
-const chargeProducts = () =>{
+const chargeProducts = async () =>{
     try {
+
+        const categories = [{ name: "Tennis"}, { name: "Chanclas"}, { name:"Pantaloneta"}];
+        const CategoryDB = categories.map(c=> Category.create(c));
+        await Promise.all(CategoryDB).then(()=>console.log('Categories successfully charged'));
+
         const ProductDB= data.map((e) => Product.create({
             name: e.name,
             image: e.image,
