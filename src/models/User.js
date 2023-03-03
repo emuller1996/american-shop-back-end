@@ -10,13 +10,7 @@ module.exports= (sequelize) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        image: {
-            type: DataTypes.STRING,
-            validate: {
-                isUrl: true,
-            }
-        },
+        },        
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -25,16 +19,18 @@ module.exports= (sequelize) => {
                 isEmail: true,
             }
         },
-        block: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
-        },
         phone: {
             type: DataTypes.BIGINT,
             validate: {
                 isInt: true,
                 isNumeric: true
             }
+        },
+        documentType :{
+            type:DataTypes.STRING       
+        },
+        documentNumber:{
+            type:DataTypes.BIGINT
         }
     },{
         timestamps: true

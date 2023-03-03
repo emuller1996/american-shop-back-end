@@ -1,11 +1,15 @@
 const { Router } = require('express');
-const { postUser, getUserCheck, blockUser,  getUserByEmail, getUsers } = require('../controllers/usersController.js');
+const { postUser, getUserCheck, blockUser,  getUserByEmail,updateUser, getUsers } = require('../controllers/usersController.js');
 
 const userRouter = Router();
 
 userRouter.post('/', postUser);
 
 userRouter.get('/', getUsers);
+
+userRouter.get('/:email',getUserByEmail)
+
+userRouter.put('/:email',updateUser);
 
 /* userRouter.get('/:email', getUserByEmail); */
 
