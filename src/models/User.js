@@ -29,24 +29,12 @@ module.exports= (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        shipping_address: {
-            type: DataTypes.STRING,
-        },
-        country: {
-            type: DataTypes.STRING,
-        },
         phone: {
             type: DataTypes.BIGINT,
             validate: {
                 isInt: true,
                 isNumeric: true
             }
-        },
-        postal_code: {
-            type: DataTypes.BIGINT,
-        },
-        region: {
-            type: DataTypes.STRING,
         }
     },{
         timestamps: true
