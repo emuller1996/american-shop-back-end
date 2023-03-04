@@ -80,6 +80,22 @@ const blockUser = async (req, res)=>{
     }
 }
 
+const updateUser = async (req, res)=>{
+    const { email } = req.params;
+    const  updateData  = req.body;
+    try {   
+        const result = await User.update(updateData, {
+            where : {               
+                email: { [Op.eq] : email }
+            }   
+        } )
+        console.log(result)
+        return res.status(202).json( { response :'usuario actualizado correctamente'});
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 /* const updateUser = async (req, res)=>{
     const { email } = req.params;
     const { image, ...updateData } = req.body;
@@ -123,5 +139,6 @@ module.exports = {
     postUser,
     getUserCheck,
     blockUser,
-    getUserByEmail
+    getUserByEmail,
+    updateUser
 }
