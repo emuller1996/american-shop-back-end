@@ -1,4 +1,4 @@
-const { Product } = require('../db.js');
+const { Product, Category } = require('../db.js');
 const { Op } = require("sequelize");
 
 const getProducts = async (req, res) => {
@@ -25,6 +25,9 @@ const getProducts = async (req, res) => {
 
     try{
         const products = await Product.findAndCountAll({
+            include: {
+                    model :Category
+            },
             where,
             order,
             limit: size,
