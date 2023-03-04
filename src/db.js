@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const modelProduct = require('./models/Product.js');
 const modelCategory = require('./models/Category.js');
 const modelUser = require('./models/User');
-
+const modelDeliveryAddress = require('./models/DeliveryAddress.js');
 
 require('dotenv').config();
 
@@ -17,13 +17,18 @@ const sequelize = new Sequelize(`postgres://${ DB_USER }:${ DB_PASSWORD }@${ DB_
 modelProduct(sequelize);
 modelCategory(sequelize);
 modelUser(sequelize);
+modelDeliveryAddress(sequelize)
 
 
-const { Product, Category, User } = sequelize.models;
+const { Product, Category, User, DeliveryAddress } = sequelize.models;
 
+
+User.hasMany(DeliveryAddress);
+DeliveryAddress.belongsTo(User);
 
 Category.hasMany(Product);
 Product.belongsTo(Category);
+
 
 
 
@@ -31,5 +36,6 @@ module.exports = {
   Product,
   Category,
   User,
+  DeliveryAddress,
   db: sequelize,
 };
