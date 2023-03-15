@@ -3,6 +3,8 @@ const modelProduct = require('./models/Product.js');
 const modelCategory = require('./models/Category.js');
 const modelUser = require('./models/User');
 const modelDeliveryAddress = require('./models/DeliveryAddress.js');
+const modelOrder = require('./models/Order.js');
+const modelOrderDetail = require('./models/OrderDetail');
 
 require('dotenv').config();
 
@@ -18,16 +20,24 @@ modelProduct(sequelize);
 modelCategory(sequelize);
 modelUser(sequelize);
 modelDeliveryAddress(sequelize)
+modelOrder(sequelize);
+modelOrderDetail(sequelize);
 
 
-const { Product, Category, User, DeliveryAddress } = sequelize.models;
+const { Product, Category, User, DeliveryAddress, Order, OrderDetail } = sequelize.models;
 
 
 User.hasMany(DeliveryAddress);
 DeliveryAddress.belongsTo(User);
 
+Order.belongsToMany(Product, { through : OrderDetail})
+Product.belongsToMany(Order, { through: OrderDetail})
+
 Category.hasMany(Product);
 Product.belongsTo(Category);
+
+
+Order.belongsTo(DeliveryAddress)
 
 
 
