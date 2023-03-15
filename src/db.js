@@ -38,7 +38,7 @@ Product.belongsTo(Category);
 
 
 Order.belongsTo(DeliveryAddress)
-
+DeliveryAddress.hasMany(Order)
 
 
 
@@ -47,5 +47,7 @@ module.exports = {
   Category,
   User,
   DeliveryAddress,
+  Order,
+  OrderDetail,
   db: sequelize,
 };

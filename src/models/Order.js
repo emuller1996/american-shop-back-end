@@ -21,14 +21,10 @@ module.exports = (sequelize) => {
           min: 0.01,
         },
       },
-      shipping_address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      status: {
-        type: DataTypes.ENUM("created", "pending", "in process", "delivered", "received", "cancelled"),
-        allowNull: false,
-      },
+      purchase_date : {
+        type : DataTypes.DATE,
+        allowNull : false
+      }
     },
     {
       timestamps: true,
