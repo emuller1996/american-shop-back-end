@@ -5,6 +5,8 @@ const { Router } = require('express');
 const products = require('./products.js');
 const categoryRouters = require('./categories.routes');
 const deliveryAddressRouters = require('./deliveryAddress.routes');
+const orderRouters = require('./order.routes');
+
 
 const router = Router();
 
@@ -14,6 +16,8 @@ const router = Router();
 router.use('/products', products);
 router.use('/category', categoryRouters);
 router.use('/deliveryAddress', deliveryAddressRouters);
+router.use('/order', orderRouters);
+
 
 
 
