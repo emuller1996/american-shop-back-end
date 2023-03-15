@@ -28,10 +28,6 @@ const getDeliveryAddressByUser = async (req, res) => {
 const createDeliveryAddress = async (req, res) => {
 
     const { data } = req.body;
-
-
-
-
     try {
 
         const user = await User.findOne({ where: { email: req.body.email } })
@@ -45,10 +41,25 @@ const createDeliveryAddress = async (req, res) => {
 
     }
 
+}
 
+
+const updateDeliveryAddress = async (req,res) => {
+    const { data } = req.body;
+    try {
+        const address = await DeliveryAddress.update( data , {
+            where : {
+                id : data.id
+            }
+        })
+        return res.status(202).json({response: 'Direccion se actualizo correctamente.', deliveryAddress : address })
+    } catch (error) {
+        return res.status(405).json({error:'ERROR : '})
+    }
 }
 
 module.exports = {
     getDeliveryAddressByUser,
-    createDeliveryAddress
+    createDeliveryAddress,
+    updateDeliveryAddress
 }

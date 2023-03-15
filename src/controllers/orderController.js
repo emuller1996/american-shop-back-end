@@ -33,10 +33,10 @@ const getOrderByEmail = async (req,res) => {
           include: [{model: Product }, { model :DeliveryAddress }],
           order: orderBy
         });
-    
-        order.length !== 0
-          ? res.status(200).send(order)
-          : res.json("Order not found or email invalid");
+
+        
+        res.status(200).send(order)
+        
       } catch (error) {
         res.status(404).json(error.message);
       }

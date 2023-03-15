@@ -70,13 +70,14 @@ const createProduct = async (req, res) => {
           where:{
           name,
           brand,
-          stock,
+          stock
+          
          }
         });
       
         if(productData.length > 0) throw(Error('Product already in database'));
       
-        let product = await Product.create({ name, image, description, price, stock, brand });
+        let product = await Product.create({ name, image, description, price, stock, brand,CategoryId });
       
         res.status(200).json({ message : 'Producto Creado Correctamente', product: product});
       
