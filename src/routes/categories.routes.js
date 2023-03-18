@@ -8,7 +8,7 @@ categoryRouter.get('/', getCategories);
 
 categoryRouter.post('/:name', postCategory);
 
-categoryRouter.put('/:id/:category', updateCategory);
+categoryRouter.put('/:id', updateCategory);
 
 categoryRouter.delete('/:id',deleteCategory);
 
