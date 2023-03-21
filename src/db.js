@@ -33,6 +33,10 @@ DeliveryAddress.belongsTo(User);
 Order.belongsToMany(Product, { through : OrderDetail})
 Product.belongsToMany(Order, { through: OrderDetail})
 
+
+User.hasMany(Order);
+Order.belongsTo(User);
+
 Category.hasMany(Product);
 Product.belongsTo(Category);
 

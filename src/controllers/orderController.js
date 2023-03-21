@@ -1,4 +1,4 @@
-const { Order, Product, DeliveryAddress } = require("../db.js");
+const { Order, Product, DeliveryAddress, User } = require("../db.js");
 
 const createOrder = async (req, res) => {
   let order = req.body;
@@ -10,7 +10,12 @@ const createOrder = async (req, res) => {
       return res
         .status(405)
         .json({ message: "ERROR : DIRECCION NO SELECIONA" });
+
+    let userClient = await User.findOne({where: {email: order.UserId}})
+    console.log(userClient.id);
+    order.UserId = userClient.id;
     let orderDB = await Order.create(order);
+
     products?.map(async (e) => {
       let productDB = await Product.findByPk(e.id);
       await orderDB.addProduct(productDB, { through: { units: e.cant } });
@@ -49,6 +54,7 @@ const getOrderAllAdmin = async (req, res) => {
   try {
     const result = await Order.findAll({
       order: [["id", "ASC"]],
+      include: [{ model: User }],
     });
     console.log(result)
     res.status(201).json({ orders :result})
