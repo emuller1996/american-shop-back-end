@@ -1,52 +1,104 @@
-const { Order,Product, DeliveryAddress } = require('../db.js');
-
-
+const {
+  Order,
+  Product,
+  DeliveryAddress,
+  User,
+  OrderDetail,
+} = require("../db.js");
 
 const createOrder = async (req, res) => {
+  let order = req.body;
+  let { products } = order;
+  try {
+    delete order.products;
+    console.log(order);
+    if (!order.DeliveryAddressId)
+      return res
+        .status(405)
+        .json({ message: "ERROR : DIRECCION NO SELECIONA" });
 
-    let order = req.body;
-    let { products } = order;
-    try {
-        delete order.products
-        console.log(order)
-        if(!order.DeliveryAddressId) return res.status(405).json({message : 'ERROR : DIRECCION NO SELECIONA'}) 
-         let orderDB = await Order.create(order);
-        products?.map(async (e) => {
-            let productDB = await Product.findByPk(e.id);
-            await orderDB.addProduct(productDB, { through: { units: e.cant } });
-        });
-        return res.status(201).json({response : true, message : 'CORRECTO>ORDEN REGISTRADA CORRECTAMENTE.'}); 
-    } catch (error) {
-        res.status(400).json(error.message);
-    }
-    res.json({ response: 'createOrder' })
-}
+    let userClient = await User.findOne({ where: { email: order.user_email } });
+    console.log(userClient.id);
+    order.UserId = userClient.id;
+    let orderDB = await Order.create(order);
 
-const getOrderByEmail = async (req,res) => {
-    try {
-        const { emailUser } = req.params;
-        const orderBy = [["id", "DESC"]];
-        const order = await Order.findAll({
-          where: {
-            user_email: emailUser
-          },
-          include: [{model: Product }, { model :DeliveryAddress }],
-          order: orderBy
-        });
-    
-        order.length !== 0
-          ? res.status(200).send(order)
-          : res.json("Order not found or email invalid");
-      } catch (error) {
-        res.status(404).json(error.message);
-      }
-}
+    products?.map(async (e) => {
+      let productDB = await Product.findByPk(e.id);
+      await orderDB.addProduct(productDB, {
+        through: {
+          units: e.cant,
+          unitPrice: e.price,
+          totalPrice: e.price * e.cant,
+        },
+      });
+    });
+    return res.status(201).json({
+      response: true,
+      message: "CORRECTO>ORDEN REGISTRADA CORRECTAMENTE.",
+      order: orderDB,
+    });
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+  return res.json({ response: "createOrder" });
+};
 
+const getOrderByEmail = async (req, res) => {
+  try {
+    const { emailUser } = req.params;
+    const orderBy = [["id", "DESC"]];
+    const order = await Order.findAll({
+      where: {
+        user_email: emailUser,
+      },
+      include: [{ model: Product }, { model: DeliveryAddress }],
+      order: orderBy,
+    });
 
+    res.status(200).send(order);
+  } catch (error) {
+    res.status(404).json(error.message);
+  }
+};
 
+const getOrderAllAdmin = async (req, res) => {
+  try {
+    const result = await Order.findAll({
+      order: [["id", "ASC"]],
+      include: [{ model: User }],
+    });
+    console.log(result);
+    res.status(201).json({ orders: result });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
 
+const getOrderById = async (req, res) => {
+  const idOrder = req.params.id;
+  try {
+    const OrderSearch = await Order.findOne({
+      where: {
+        id: idOrder,
+      },
+      include: [{ model: Product }, { model: DeliveryAddress }],
+    });
+
+    console.log(OrderSearch);
+    if (!OrderSearch)
+      return res
+        .status(404)
+        .json({ response: "ERROR ", message: "ERROR>> NO EXISTE LA ORDEN" });
+
+    return res.status(200).json({ order: OrderSearch });
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
+};
 
 module.exports = {
-    createOrder,
-    getOrderByEmail
-}
+  createOrder,
+  getOrderByEmail,
+  getOrderAllAdmin,
+  getOrderById,
+};

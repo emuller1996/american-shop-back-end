@@ -1,100 +1,83 @@
-const { Op } = require('sequelize');
-const { User } = require('../db.js');
-
-
-
+const { Op } = require("sequelize");
+const { User } = require("../db.js");
 
 const getUsers = async (req, res) => {
-    const { page, search } = req.query;
-    const limit  = 12;
-    const offset = page * limit;
-    let where    = {};
-    let order    = [["id", "ASC"]];
+  try {
+    const users = await User.findAll({});
 
+    return res.json({
+      users: users,
+    });
+  } catch (error) {
+    res.status(404).json("Not Found Users");
+  }
+};
 
-    if(search) where.email = {[Op.iLike]: `%${search}%`};
+const postUser = async (req, res) => {
+  try {
+    const user = req.body;
+    await User.create(user);
+    /* emailNotifications(user.email,"Registration on Tecnoshop 💌",message.registration); */
+    res.json("New User created");
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
 
-    try {
-
-        const users = await User.findAndCountAll({
-            where,
-            order,
-            limit,
-            offset
-        })
-
-        return res.json({
-            totalPages: Math.ceil(users.count / limit), 
-            users: users.rows
-        });
-            
-    } catch (error) {
-        res.status(404).json("Not Found Users");
-        
-    }
-}
-
-const postUser = async (req, res)=>{
-    try {
-        const user = req.body;
-        await User.create(user);
-        /* emailNotifications(user.email,"Registration on Tecnoshop 💌",message.registration); */
-        res.json("New User created");
-    } catch (error) {
-        res.status(400).json(error.message);
-    }
-}
-
-const getUserCheck = async (req, res)=>{
-    try {
-        const {email} = req.params;
-
-        const user = await User.findOne({
-            where:{
-                email
-            }
-        });
-
-        if(!user) return res.json({block: null});
-        return res.json({block: user.block})
-        
-    } catch (error) {
-        res.status(404).json(error.message);
-    }
-}
-
-const blockUser = async (req, res)=>{
-    const email = req.params.email
-    const block = req.body.block
-
-    try {
-        const user = await User.update({block},{
-            where: {
-                email
-            }
-        })
-        if(user[0]) return res.json( block==="true" ? "block" : "unblock" );
-        return res.json("Not match user");
-    } catch (error) {
-        res.status(400).json(error.message)
-    }
-}
-
-const updateUser = async (req, res)=>{
+const getUserCheck = async (req, res) => {
+  try {
     const { email } = req.params;
-    const  updateData  = req.body;
-    try {   
-        const result = await User.update(updateData, {
-            where : {               
-                email: { [Op.eq] : email }
-            }   
-        } )
-        console.log(result)
-        return res.status(202).json( { response :'usuario actualizado correctamente'});
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
-}
+
+    const user = await User.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) return res.json({ block: null });
+    return res.json({ block: user.block });
+  } catch (error) {
+    res.status(404).json(error.message);
+  }
+};
+
+const blockUser = async (req, res) => {
+  const email = req.params.email;
+  const block = req.body.block;
+
+  try {
+    const user = await User.update(
+      { block },
+      {
+        where: {
+          email,
+        },
+      }
+    );
+    if (user[0]) return res.json(block === "true" ? "block" : "unblock");
+    return res.json("Not match user");
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+
+const updateUser = async (req, res) => {
+  const { email } = req.params;
+  const updateData = req.body;
+  try {
+    const result = await User.update(updateData, {
+      where: {
+        email: { [Op.eq]: email },
+      },
+    });
+    console.log(result);
+    return res
+      .status(202)
+      .json({ response: "usuario actualizado correctamente" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 /* const updateUser = async (req, res)=>{
     const { email } = req.params;
@@ -118,27 +101,25 @@ const updateUser = async (req, res)=>{
     }
 } */
 
-const getUserByEmail = async ( req, res)=>{
-
-    const email = req.params.email;
-    try {
-        const user = await User.findOne({
-            where:{
-                email: email
-            }
-        })
-        return res.json(user);
-    } catch (error) {
-        res.status(404).json(error.message);
-    }
-
-}
+const getUserByEmail = async (req, res) => {
+  const email = req.params.email;
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    return res.json(user);
+  } catch (error) {
+    res.status(404).json(error.message);
+  }
+};
 
 module.exports = {
-    getUsers,
-    postUser,
-    getUserCheck,
-    blockUser,
-    getUserByEmail,
-    updateUser
-}
+  getUsers,
+  postUser,
+  getUserCheck,
+  blockUser,
+  getUserByEmail,
+  updateUser,
+};

@@ -53,6 +53,15 @@
     "rating": 0,
     "stock": 22,
     "brand": "JBL"
+  },
+  { 
+    "name":"CAMISETA BROOKLYN",
+    "image": "https://cdn-coejb.nitrocdn.com/xwehPRbfMJxXSNSrpjzKDZwvInqalsXe/assets/static/optimized/rev-0f228ed/wp-content/uploads/2021/03/bkrln-brooklyn-superior-3-1-768x768.png",
+    "description":"Sobre $300.000 son las compras ropa al por mayor en Cali y hacemos envíos a toda Colombia... tenemos las Camisetas Brooklyn Colombia nuevas todos los días a un precio irresistible",
+    "price":65000,
+    "CategoryId":2,
+    "stock":3,
+    "brand":"BROOKLYN"
   }
   
 ]
