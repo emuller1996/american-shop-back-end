@@ -5,6 +5,8 @@ const modelUser = require('./models/User');
 const modelDeliveryAddress = require('./models/DeliveryAddress.js');
 const modelOrder = require('./models/Order.js');
 const modelOrderDetail = require('./models/OrderDetail');
+const modelUserAdmin = require('./models/UserAdmin');
+
 
 require('dotenv').config();
 
@@ -22,9 +24,9 @@ modelUser(sequelize);
 modelDeliveryAddress(sequelize)
 modelOrder(sequelize);
 modelOrderDetail(sequelize);
+modelUserAdmin(sequelize)
 
-
-const { Product, Category, User, DeliveryAddress, Order, OrderDetail } = sequelize.models;
+const { Product, Category, User, DeliveryAddress, Order, OrderDetail, UserAdmin } = sequelize.models;
 
 
 User.hasMany(DeliveryAddress);
@@ -55,5 +57,6 @@ module.exports = {
   DeliveryAddress,
   Order,
   OrderDetail,
+  UserAdmin,
   db: sequelize,
 };
