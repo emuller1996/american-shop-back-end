@@ -8,15 +8,15 @@ const authUser = async (req, res) => {
   console.log(req.body);
 
   const userDb = await UserAdmin.findOne({
-    where: { username: username, password: password},
+    where: { username: username, password: password },
   });
 
   if (!userDb)
     return res
       .status(403)
-      .json({ message: "USER NO REGISTRED IN THE DATABASE." });
+      .json({ message: "Usuario o Contraseña incorrecta." });
 
-  const accessToken = generateAccessToken({username});
+  const accessToken = generateAccessToken({ username });
 
   return res.header("authorization", accessToken).json({
     message: "USUARIO AUTENTICADO",
@@ -24,10 +24,25 @@ const authUser = async (req, res) => {
   });
 };
 
+const validateToken = async (req, res) => {
+  const token = req.params.token;
+
+  jws.verify(token, process.env.SECRECT_KEY, (err, user) => {
+    if (err) {
+      return res
+        .status(405)
+        .json({ message: "ERROR-> TOKEN EXPIRED OR INCORRECT" });
+    } else {
+      return res.status(200).json({ message: "Token Valid" });
+    }
+  });
+};
+
 const generateAccessToken = (user) => {
-  return jws.sign(user, process.env.SECRECT_KEY, { expiresIn: "5m" });
+  return jws.sign(user, process.env.SECRECT_KEY, { expiresIn: "60m" });
 };
 
 module.exports = {
   authUser,
+  validateToken
 };

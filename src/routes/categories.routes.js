@@ -9,7 +9,7 @@ const { validateToken } = require("../utils/authjws.js");
 
 const categoryRouter = Router();
 
-categoryRouter.get("/", validateToken, getCategories);
+categoryRouter.get("/", getCategories);
 
 categoryRouter.post("/:name", validateToken, postCategory);
 
