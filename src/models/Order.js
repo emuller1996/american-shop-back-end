@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
       purchase_date : {
         type : DataTypes.DATE,
         allowNull : false
+      },
+      status: {
+        type: DataTypes.ENUM("PENDIENTE", "EN PROCESO", "EN CAMINO", "RECIBIDA", "CANCELADA"),
+        allowNull: false,
       }
     },
     {
