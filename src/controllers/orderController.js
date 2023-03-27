@@ -20,7 +20,9 @@ const createOrder = async (req, res) => {
     let userClient = await User.findOne({ where: { email: order.user_email } });
     console.log(userClient.id);
     order.UserId = userClient.id;
-    let orderDB = await Order.create(order);
+    let orderDB = await Order.create(
+      Object.assign(order, { status: "PENDIENTE" })
+    );
 
     products?.map(async (e) => {
       let productDB = await Product.findByPk(e.id);
@@ -81,7 +83,7 @@ const getOrderById = async (req, res) => {
       where: {
         id: idOrder,
       },
-      include: [{ model: Product }, { model: DeliveryAddress }],
+      include: [{ model: Product }, { model: DeliveryAddress },{ model: User }],
     });
 
     console.log(OrderSearch);
