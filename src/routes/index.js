@@ -8,6 +8,8 @@ const deliveryAddressRouters = require("./deliveryAddress.routes");
 const orderRouters = require("./order.routes");
 const authRouters = require("./auth.routes");
 const messagehRouters = require("./message.routes");
+const sizeRouters = require("./size.routes");
+
 
 const router = Router();
 
@@ -20,5 +22,7 @@ router.use("/deliveryAddress", deliveryAddressRouters);
 router.use("/order", orderRouters);
 router.use("/auth", authRouters);
 router.use("/messages", messagehRouters);
+router.use("/sizes", sizeRouters);
+
 
 module.exports = router;
