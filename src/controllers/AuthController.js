@@ -44,5 +44,5 @@ const generateAccessToken = (user) => {
 
 module.exports = {
   authUser,
-  validateToken
+  validateToken,
 };

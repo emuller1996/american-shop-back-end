@@ -13,7 +13,7 @@ const userRouter = Router();
 
 userRouter.post("/", postUser);
 
-userRouter.get("/", validateToken, getUsers);
+userRouter.get("/", getUsers);
 
 userRouter.get("/:email", getUserByEmail);
 

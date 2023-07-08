@@ -11,14 +11,12 @@ const createOrder = async (req, res) => {
   let { products } = order;
   try {
     delete order.products;
-    console.log(order);
     if (!order.DeliveryAddressId)
       return res
         .status(405)
         .json({ message: "ERROR : DIRECCION NO SELECIONA" });
 
     let userClient = await User.findOne({ where: { email: order.user_email } });
-    console.log(userClient.id);
     order.UserId = userClient.id;
     let orderDB = await Order.create(
       Object.assign(order, { status: "PENDIENTE" })
@@ -42,7 +40,6 @@ const createOrder = async (req, res) => {
   } catch (error) {
     return res.status(400).json(error.message);
   }
-  return res.json({ response: "createOrder" });
 };
 
 const getOrderByEmail = async (req, res) => {
@@ -85,8 +82,6 @@ const getOrderById = async (req, res) => {
       },
       include: [{ model: Product }, { model: DeliveryAddress },{ model: User }],
     });
-
-    console.log(OrderSearch);
     if (!OrderSearch)
       return res
         .status(404)

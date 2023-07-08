@@ -5,7 +5,6 @@ const createPostSize = async (req, res) => {
   const sizeCreate = req.body;
   try {
     const size = await Size.create(sizeCreate);
-    console.log(size);
     return res.status(201).json({ message: "Size Created." });
   } catch (error) {
     console.log(error);

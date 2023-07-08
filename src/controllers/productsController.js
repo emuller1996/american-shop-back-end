@@ -1,4 +1,4 @@
-const { Product, Category } = require("../db.js");
+const { Product, Category, Size } = require("../db.js");
 const { Op } = require("sequelize");
 
 const getProducts = async (req, res) => {
@@ -26,9 +26,12 @@ const getProducts = async (req, res) => {
 
   try {
     const products = await Product.findAndCountAll({
-      include: {
-        model: Category,
-      },
+      include: [
+        {
+          model: Category,
+        },
+        { model: Size },
+      ],
       where,
       order,
       limit: size,
@@ -50,6 +53,12 @@ const getProductById = async (req, res) => {
     idNumber = id;
     try {
       const product = await Product.findByPk(idNumber, {
+        include: [
+          {
+            model: Category,
+          },
+          { model: Size },
+        ],
         attributes: {},
       });
       if (product) return res.status(200).json(product);
@@ -62,10 +71,10 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, image, description, price, CategoryId, stock, brand } =
-      req.body;
+    const { name, image, description, price, CategoryId, brand } = req.body;
     console.log(req.body);
-    if (!name || !image || !description || !price || !stock || !brand)
+    const stock = 0;
+    if (!name || !image || !description || !price || !brand)
       throw Error("Invalid inputs");
 
     let productData = await Product.findAll({
@@ -78,19 +87,19 @@ const createProduct = async (req, res) => {
 
     if (productData.length > 0) throw Error("Product already in database");
 
-    let product = await Product.create({
-      name,
-      image,
-      description,
-      price,
-      stock,
-      brand,
-      CategoryId,
-    });
-
-    res
-      .status(200)
-      .json({ message: "Producto Creado Correctamente", product: product });
+    await Product.create(
+      {
+        name,
+        image,
+        description,
+        price,
+        stock,
+        brand,
+        CategoryId,
+      },
+      { include: [Size] }
+    );
+    res.status(200).json({ message: "Producto Creado Correctamente" });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -105,9 +114,7 @@ const updateProduct = async (req, res) => {
         id: product.id,
       },
     });
-    return res
-      .status(202)
-      .json({ response: "Product Updated", product: result });
+    return res.status(202).json({ message: "Producto Actualizado" });
   } catch (error) {
     return res.status(404).json({ error: error.message });
   }
@@ -117,5 +124,5 @@ module.exports = {
   getProducts,
   getProductById,
   createProduct,
-  updateProduct
+  updateProduct,
 };

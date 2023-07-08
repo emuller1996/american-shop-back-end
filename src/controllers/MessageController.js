@@ -1,7 +1,6 @@
 const { Message } = require("../db.js");
 
 const getMessagesByOrder = async (req, res) => {
-  console.log(req.params.id);
   const id = req.params.id;
   try {
     const messages = await Message.findAll({
@@ -15,8 +14,6 @@ const getMessagesByOrder = async (req, res) => {
 
 const postCreateMessage = async (req, res) => {
   const { message, written, OrderId } = req.body;
-  console.log(req.body);
-
   try {
     const messages = await Message.create({
       message,
@@ -24,7 +21,6 @@ const postCreateMessage = async (req, res) => {
       read: false,
       OrderId,
     });
-    console.log(messages);
     return res.status(201).json({ message: "Mensaje Enviado" });
   } catch (error) {
     console.log(error);
