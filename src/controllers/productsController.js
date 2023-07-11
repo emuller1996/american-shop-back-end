@@ -1,4 +1,4 @@
-const { Product, Category, Size } = require("../db.js");
+const { Product, ProductSize, Category, Size } = require("../db.js");
 const { Op } = require("sequelize");
 
 const getProducts = async (req, res) => {
@@ -120,9 +120,36 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const createSizeProduct = async (req, res) => {
+  const data = req.body;
+  try {
+    const s = await ProductSize.create(data);
+    return res.status(201).json({ message: "Talla Creada" });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ error: error.message });
+  }
+};
+
+const getSizeProduct = async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const sizes = await ProductSize.findAll({
+      where: { ProductId: req.params.id },
+      include: { model: Size },
+    });
+    console.log(sizes);
+    return res.status(200).json(sizes);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
+  createSizeProduct,
+  getSizeProduct,
 };

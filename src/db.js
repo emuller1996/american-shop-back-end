@@ -10,8 +10,6 @@ const modelMessage = require("./models/Message");
 const modelSize = require("./models/Size");
 const modelProductSize = require("./models/ProductSize.js");
 
-
-
 require("dotenv").config();
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT } = process.env;
@@ -34,9 +32,7 @@ modelOrderDetail(sequelize);
 modelUserAdmin(sequelize);
 modelMessage(sequelize);
 modelSize(sequelize);
-modelProductSize(sequelize)
-
-
+modelProductSize(sequelize);
 
 const {
   Product,
@@ -48,7 +44,7 @@ const {
   UserAdmin,
   Message,
   Size,
-  ProductSize
+  ProductSize,
 } = sequelize.models;
 
 User.hasMany(DeliveryAddress);
@@ -57,10 +53,10 @@ DeliveryAddress.belongsTo(User);
 Order.belongsToMany(Product, { through: OrderDetail });
 Product.belongsToMany(Order, { through: OrderDetail });
 
-
 Product.belongsToMany(Size, { through: ProductSize });
 Size.belongsToMany(Product, { through: ProductSize });
 
+ProductSize.belongsTo(Size);
 
 Order.hasMany(OrderDetail);
 OrderDetail.belongsTo(Order);
