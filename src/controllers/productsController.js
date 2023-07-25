@@ -124,6 +124,14 @@ const createSizeProduct = async (req, res) => {
   const data = req.body;
   try {
     const s = await ProductSize.create(data);
+    const sizes = await ProductSize.findAll({
+      where: { ProductId: data.ProductId },
+    });
+    const totalTalla = sizes.reduce((pre, current) => pre + parseInt(current.quantity),0);
+    await Product.update(
+      { stock: totalTalla },
+      { where: { id: data.ProductId } }
+    );
     return res.status(201).json({ message: "Talla Creada" });
   } catch (error) {
     console.log(error);
@@ -132,13 +140,11 @@ const createSizeProduct = async (req, res) => {
 };
 
 const getSizeProduct = async (req, res) => {
-  console.log(req.params.id);
   try {
     const sizes = await ProductSize.findAll({
       where: { ProductId: req.params.id },
       include: { model: Size },
     });
-    console.log(sizes);
     return res.status(200).json(sizes);
   } catch (error) {
     console.log(error);

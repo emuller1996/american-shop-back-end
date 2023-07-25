@@ -7,7 +7,7 @@
     "CategoryId": 2,
     "discountPercentage": 5,
     "rating": 0,
-    "stock": 12,
+    "stock": 0,
     "brand": "Jordan"
   },
   {
@@ -18,7 +18,7 @@
     "CategoryId": 2,
     "discountPercentage": 0,
     "rating": 0,
-    "stock": 20,
+    "stock": 0,
     "brand": "Apple"
   },
   {
@@ -29,7 +29,7 @@
     "CategoryId": 2,
     "discountPercentage": 0,
     "rating": 4,
-    "stock": 22,
+    "stock": 0,
     "brand": "Apple"
   },
   {
@@ -40,7 +40,7 @@
     "CategoryId": 2,
     "discountPercentage": 0,
     "rating": 0,
-    "stock": 18,
+    "stock": 0,
     "brand": "Apple"
   },
   {
@@ -51,7 +51,7 @@
     "CategoryId": 2,
     "discountPercentage": 0,
     "rating": 0,
-    "stock": 22,
+    "stock": 0,
     "brand": "JBL"
   },
   { 
@@ -60,7 +60,7 @@
     "description":"Sobre $300.000 son las compras ropa al por mayor en Cali y hacemos envíos a toda Colombia... tenemos las Camisetas Brooklyn Colombia nuevas todos los días a un precio irresistible",
     "price":65000,
     "CategoryId":2,
-    "stock":3,
+    "stock":0,
     "brand":"BROOKLYN"
   }
   
