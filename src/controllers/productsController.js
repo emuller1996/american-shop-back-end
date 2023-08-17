@@ -57,7 +57,7 @@ const getProductById = async (req, res) => {
           {
             model: Category,
           },
-          { model: Size },
+          { model: Size }
         ],
         attributes: {},
       });
@@ -127,7 +127,10 @@ const createSizeProduct = async (req, res) => {
     const sizes = await ProductSize.findAll({
       where: { ProductId: data.ProductId },
     });
-    const totalTalla = sizes.reduce((pre, current) => pre + parseInt(current.quantity),0);
+    const totalTalla = sizes.reduce(
+      (pre, current) => pre + parseInt(current.quantity),
+      0
+    );
     await Product.update(
       { stock: totalTalla },
       { where: { id: data.ProductId } }
