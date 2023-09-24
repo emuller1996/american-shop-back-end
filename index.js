@@ -5,7 +5,7 @@ const chargeProducts = require('./src/utils/chargeProducts.js');
 
 db.sync({ force: false })
   .then(()=>{
-    /* chargeProducts(); */
+    chargeProducts();
     console.log("Database sync");
   });
 
