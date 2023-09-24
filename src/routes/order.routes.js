@@ -3,15 +3,15 @@ const {
   createOrder,
   getOrderByEmail,
   getOrderAllAdmin,
-  getOrderById
+  getOrderById,
 } = require("../controllers/orderController");
+const { login } = require("../utils/authjws.js");
 
 const orderRouter = Router();
 
 orderRouter.get("/", getOrderAllAdmin);
-orderRouter.get("/:emailUser", getOrderByEmail);
-orderRouter.get("/comfirmation/:id", getOrderById);
-
+orderRouter.get("/:emailUser", login, getOrderByEmail);
+orderRouter.get("/comfirmation/:id",login, getOrderById);
 orderRouter.post("", createOrder);
 
 module.exports = orderRouter;

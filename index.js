@@ -3,9 +3,9 @@ const { db } = require('./src/db.js');
 const chargeProducts = require('./src/utils/chargeProducts.js');
 
 
-db.sync({ force: true })
+db.sync({ force: false })
   .then(()=>{
-    chargeProducts();
+    /* chargeProducts(); */
     console.log("Database sync");
   });
 
