@@ -1,5 +1,6 @@
 const { Product, ProductSize, Category, Size } = require("../db.js");
 const { Op } = require("sequelize");
+const { validate } = require('uuid');
 
 const getProducts = async (req, res) => {
   const pageNumber = Number.parseInt(req.query.page);
@@ -49,7 +50,9 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
   let idNumber = Number.parseInt(id);
-  if (!Number.isNaN(idNumber)) {
+  validate(id)
+  console.log(validate(id));
+  if (validate(id)) {
     idNumber = id;
     try {
       const product = await Product.findByPk(idNumber, {

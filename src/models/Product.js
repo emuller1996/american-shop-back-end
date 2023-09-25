@@ -1,13 +1,12 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-
   sequelize.define(
     "Product",
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4, // Or DataTypes.UUIDV1
         primaryKey: true,
       },
       name: {
@@ -49,5 +48,4 @@ module.exports = (sequelize) => {
       timestamps: false,
     }
   );
-
-}
+};
