@@ -7,7 +7,6 @@ const {
   updateUser,
   getUsers,
 } = require("../controllers/usersController.js");
-const { validateToken } = require("../utils/authjws.js");
 
 const userRouter = Router();
 

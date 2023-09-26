@@ -7,17 +7,17 @@ const {
   createSizeProduct,
   getSizeProduct
 } = require("../controllers/productsController.js");
-const { validateToken, login } = require("../utils/authjws.js");
+const { validateTokenAdmin, login } = require("../utils/authjws.js");
 const productRouter = Router();
 
 
 
-productRouter.get("/",login, getProducts);
-productRouter.get("/:id",login, getProductById);
-productRouter.post("/", createProduct);
-productRouter.post("/:id/size", createSizeProduct);
-productRouter.get("/:id/size", getSizeProduct);
+productRouter.get("/", getProducts);
+productRouter.get("/:id", getProductById);
+productRouter.post("/", validateTokenAdmin,createProduct);
+productRouter.post("/:id/size",validateTokenAdmin, createSizeProduct);
+productRouter.get("/:id/size",getSizeProduct);
 
-productRouter.put("/", validateToken, updateProduct);
+productRouter.put("/", validateTokenAdmin, updateProduct);
 
 module.exports = productRouter;

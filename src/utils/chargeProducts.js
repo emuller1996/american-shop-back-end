@@ -9,7 +9,9 @@ const chargeProducts = async () => {
       { name: "Pantaloneta" },
     ];
     const CategoryDB = categories.map((c) => Category.create(c));
-    const userAdmin = UserAdmin.create({ username: "admin", password: "123" });
+    await UserAdmin.create({ username: "admin", password: "123", role :"Admin" });
+    await UserAdmin.create({ username: "Asesor", password: "123", role :"Asesor" });
+
     await Promise.all(CategoryDB).then(() =>
       console.log("Categories successfully charged")
     );

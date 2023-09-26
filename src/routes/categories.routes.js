@@ -5,16 +5,16 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../controllers/categoryController.js");
-const { validateToken } = require("../utils/authjws.js");
+const { validateTokenAdmin } = require("../utils/authjws.js");
 
 const categoryRouter = Router();
 
 categoryRouter.get("/", getCategories);
 
-categoryRouter.post("/:name", validateToken, postCategory);
+categoryRouter.post("/:name", validateTokenAdmin, postCategory);
 
-categoryRouter.put("/:id", validateToken, updateCategory);
+categoryRouter.put("/:id", validateTokenAdmin, updateCategory);
 
-categoryRouter.delete("/:id", validateToken, deleteCategory);
+categoryRouter.delete("/:id", validateTokenAdmin, deleteCategory);
 
 module.exports = categoryRouter;

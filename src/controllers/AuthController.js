@@ -1,5 +1,7 @@
 const { UserAdmin } = require("../db.js");
 const jws = require("jsonwebtoken");
+const jwt_decode = require('jwt-decode');
+
 
 const authUser = async (req, res) => {
   const username = req.body.username;
@@ -33,6 +35,8 @@ const validateToken = async (req, res) => {
         .status(405)
         .json({ message: "ERROR-> TOKEN EXPIRED OR INCORRECT" });
     } else {
+      console.log(jwt_decode(token));
+
       return res.status(200).json({ message: "Token Valid" });
     }
   });
