@@ -9,6 +9,7 @@ const modelUserAdmin = require("./models/UserAdmin");
 const modelMessage = require("./models/Message");
 const modelSize = require("./models/Size");
 const modelProductSize = require("./models/ProductSize.js");
+const modelImages = require("./models/Images.js");
 
 require("dotenv").config();
 
@@ -34,6 +35,7 @@ modelUserAdmin(sequelize);
 modelMessage(sequelize);
 modelSize(sequelize);
 modelProductSize(sequelize);
+modelImages(sequelize);
 
 const {
   Product,
@@ -46,6 +48,7 @@ const {
   Message,
   Size,
   ProductSize,
+  Images,
 } = sequelize.models;
 
 User.hasMany(DeliveryAddress);
@@ -68,6 +71,9 @@ Order.belongsTo(User);
 Category.hasMany(Product);
 Product.belongsTo(Category);
 
+Product.hasMany(Images);
+Images.belongsTo(Product);
+
 Order.belongsTo(DeliveryAddress);
 DeliveryAddress.hasMany(Order);
 
@@ -85,5 +91,6 @@ module.exports = {
   Message,
   Size,
   ProductSize,
+  Images,
   db: sequelize,
 };

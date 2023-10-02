@@ -1,6 +1,6 @@
-const { Product, ProductSize, Category, Size } = require("../db.js");
+const { Product, ProductSize, Category, Size, Images } = require("../db.js");
 const { Op } = require("sequelize");
-const { validate } = require('uuid');
+const { validate } = require("uuid");
 
 const getProducts = async (req, res) => {
   const pageNumber = Number.parseInt(req.query.page);
@@ -27,12 +27,7 @@ const getProducts = async (req, res) => {
 
   try {
     const products = await Product.findAndCountAll({
-      include: [
-        {
-          model: Category,
-        },
-        { model: Size },
-      ],
+      include: [{ model: Category }, { model: Size }, { model: Images }],
       where,
       order,
       limit: size,
@@ -50,7 +45,7 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
   let idNumber = Number.parseInt(id);
-  validate(id)
+  validate(id);
   console.log(validate(id));
   if (validate(id)) {
     idNumber = id;
@@ -60,7 +55,8 @@ const getProductById = async (req, res) => {
           {
             model: Category,
           },
-          { model: Size }
+          { model: Size },
+          { model: Images },
         ],
         attributes: {},
       });
