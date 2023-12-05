@@ -11,7 +11,7 @@ const orderRouter = Router();
 
 orderRouter.get("/", getOrderAllAdmin);
 orderRouter.get("/:emailUser", login, getOrderByEmail);
-orderRouter.get("/comfirmation/:id",login, getOrderById);
+orderRouter.get("/comfirmation/:id", getOrderById);
 orderRouter.post("", createOrder);
 
 module.exports = orderRouter;

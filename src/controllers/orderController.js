@@ -5,11 +5,39 @@ const {
   User,
   OrderDetail,
 } = require("../db.js");
+const mercadopago = require("mercadopago");
+
+mercadopago.configure({
+  access_token: process.env.ACCESS_TOKEN,
+});
 
 const createOrder = async (req, res) => {
-  let order = req.body;
-  let { products } = order;
+  console.log(req.body.products);
+
+  var payment_data = {
+    transaction_amount: 5000,
+    description: "Título del producto",
+    payment_method_id: "pse",
+    payer: {
+      entity_type: "individual",
+      email: req.body.user_email,
+      identification: {
+        type: "CC",
+        number: "114734866",
+      },
+    },
+    items: req.body.products.map((p) => {
+      return { title: p?.name, quantity: p?.cant, unit_price: p?.price };
+    }),
+    transaction_details: {
+      financial_institution: "1507",
+    },
+    callback_url: "https://american-shop-eco.vercel.app/",
+  };
+
+  let { products } = req.body;
   try {
+    let order = req.body;
     delete order.products;
     if (!order.DeliveryAddressId)
       return res
@@ -22,7 +50,7 @@ const createOrder = async (req, res) => {
       Object.assign(order, { status: "PENDIENTE" })
     );
 
-    products?.map(async (e) => {
+    /* products?.map(async (e) => {
       let productDB = await Product.findByPk(e.id);
       await orderDB.addProduct(productDB, {
         through: {
@@ -31,12 +59,24 @@ const createOrder = async (req, res) => {
           totalPrice: e.price * e.cant,
         },
       });
-    });
-    return res.status(201).json({
+    }); */
+
+    mercadopago.preferences
+      .create(payment_data)
+      .then(function (response) {
+        res.send(response.body.init_point);
+        //res.redirect({response.body.id})
+        // En esta instancia deberás asignar el valor dentro de response.body.id por el ID de preferencia solicitado en el siguiente paso
+      })
+      .catch(function (error) {
+        console.log(error);
+        res.status(400).json(error.message);
+      });
+    /* return res.status(201).json({
       response: true,
       message: "CORRECTO>ORDEN REGISTRADA CORRECTAMENTE.",
       order: orderDB,
-    });
+    }); */
   } catch (error) {
     return res.status(400).json(error.message);
   }
@@ -80,7 +120,11 @@ const getOrderById = async (req, res) => {
       where: {
         id: idOrder,
       },
-      include: [{ model: Product }, { model: DeliveryAddress },{ model: User }],
+      include: [
+        { model: Product },
+        { model: DeliveryAddress },
+        { model: User },
+      ],
     });
     if (!OrderSearch)
       return res
