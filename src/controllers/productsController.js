@@ -27,12 +27,13 @@ const getProducts = async (req, res) => {
 
   try {
     const products = await Product.findAndCountAll({
-      include: [{ model: Category }, { model: Size }, { model: Images }],
+      include: [{ model: Category }, { model: Images }],
       where,
       order,
       limit: size,
       offset: page * size,
     });
+    console.log(products.count);
     return res.status(200).json({
       totalPages: Math.ceil(products.count / size),
       products: products.rows,
@@ -68,12 +69,14 @@ const getProductsPublished = async (req, res) => {
 
   try {
     const products = await Product.findAndCountAll({
-      include: [{ model: Category }, { model: Size }, { model: Images }],
+      include: [{ model: Category }, { model: Images }],
       where,
       order,
       limit: size,
       offset: page * size,
     });
+    console.log(products.count);
+
     return res.status(200).json({
       totalPages: Math.ceil(products.count / size),
       products: products.rows,
@@ -201,5 +204,5 @@ module.exports = {
   updateProduct,
   createSizeProduct,
   getSizeProduct,
-  getProductsPublished
+  getProductsPublished,
 };
