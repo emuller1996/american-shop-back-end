@@ -62,7 +62,6 @@ const createOrder = async (req, res) => {
 
     products?.map(async (e) => {
       let productDB = await Product.findByPk(e.id);
-
       const s = await OrderDetail.create({
         units: e.cant,
         unitPrice: e.price,
