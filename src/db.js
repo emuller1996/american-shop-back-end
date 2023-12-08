@@ -54,8 +54,8 @@ const {
 User.hasMany(DeliveryAddress);
 DeliveryAddress.belongsTo(User);
 
-Order.belongsToMany(Product, { through: OrderDetail });
-Product.belongsToMany(Order, { through: OrderDetail });
+/* Order.belongsToMany(Product, { through: OrderDetail });
+Product.belongsToMany(Order, { through: OrderDetail }); */
 
 Product.belongsToMany(Size, { through: ProductSize });
 Size.belongsToMany(Product, { through: ProductSize });
@@ -64,6 +64,12 @@ ProductSize.belongsTo(Size);
 
 Order.hasMany(OrderDetail);
 OrderDetail.belongsTo(Order);
+
+Size.hasMany(OrderDetail);
+OrderDetail.belongsTo(Size);
+
+Product.hasMany(OrderDetail);
+OrderDetail.belongsTo(Product);
 
 User.hasMany(Order);
 Order.belongsTo(User);

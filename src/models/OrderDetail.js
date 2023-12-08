@@ -10,17 +10,17 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       units: {
-       type: DataTypes.INTEGER,
-       allowNull: false
-      },
-      unitPrice:{
         type: DataTypes.INTEGER,
-        allowNull:false
+        allowNull: false,
       },
-      totalPrice : {
-         type : DataTypes.INTEGER,
-         allowNull:false
-      }
+      unitPrice: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      totalPrice: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       timestamps: false,
