@@ -7,6 +7,8 @@ const {
   createSizeProduct,
   getSizeProduct,
   getProductsPublished,
+  getCommetsByUser,
+  postCreateCommetsByUser,
 } = require("../controllers/productsController.js");
 
 const {
@@ -22,6 +24,7 @@ productRouter.get("/published", getProductsPublished);
 productRouter.get("/:id", getProductById);
 productRouter.post("/", validateTokenAdmin, createProduct);
 productRouter.post("/:id/size", validateTokenAdmin, createSizeProduct);
+productRouter.post("/:id/comments", login, postCreateCommetsByUser);
 productRouter.post(
   "/:id/images",
   validateTokenAdmin,
@@ -29,6 +32,7 @@ productRouter.post(
 );
 productRouter.get("/:id/size", getSizeProduct);
 productRouter.get("/:id/images", getImagesByProduct);
+productRouter.get("/:id/comments", getCommetsByUser);
 
 productRouter.put("/", validateTokenAdmin, updateProduct);
 

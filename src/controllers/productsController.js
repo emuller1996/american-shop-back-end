@@ -1,6 +1,15 @@
-const { Product, ProductSize, Category, Size, Images } = require("../db.js");
+const {
+  Product,
+  ProductSize,
+  Category,
+  Size,
+  Images,
+  Comment,
+  User,
+} = require("../db.js");
 const { Op } = require("sequelize");
 const { validate } = require("uuid");
+const jwt_decode = require("jwt-decode");
 
 const getProducts = async (req, res) => {
   const pageNumber = Number.parseInt(req.query.page);
@@ -197,6 +206,34 @@ const getSizeProduct = async (req, res) => {
   }
 };
 
+const getCommetsByUser = async (req, res) => {
+  const { id } = req.params;
+  validate(id);
+  const coment = await Comment.findAll({
+    where: { ProductId: id },
+    include: [User],
+  });
+  console.log(coment);
+  return res.status(200).json(coment);
+};
+
+const postCreateCommetsByUser = async (req, res) => {
+  console.log(req.body);
+  try {
+    const use = await User.findOne({ where: { email: req.body.email } });
+    const co = await Comment.create({
+      comment: req.body.comment,
+      ProductId: req.params.id,
+      UserId: use.id,
+      read: false,
+    });
+
+    return res.status(200).json({ comment: co, message: "Comentario Creado" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
@@ -205,4 +242,6 @@ module.exports = {
   createSizeProduct,
   getSizeProduct,
   getProductsPublished,
+  getCommetsByUser,
+  postCreateCommetsByUser,
 };
