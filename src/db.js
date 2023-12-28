@@ -10,6 +10,8 @@ const modelMessage = require("./models/Message");
 const modelSize = require("./models/Size");
 const modelProductSize = require("./models/ProductSize.js");
 const modelImages = require("./models/Images.js");
+const modelPayment = require("./models/Payment.js");
+const bcrypt = require('bcrypt');
 
 require("dotenv").config();
 
@@ -17,7 +19,7 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT } = process.env;
 
 // postgresql://${{ DB_USER }}:${{ DB_PASSWORD }}@${{ DB_HOST }}:${{ DB_PORT }}/${{ DB_NAME }}
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=require`,
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -36,6 +38,7 @@ modelMessage(sequelize);
 modelSize(sequelize);
 modelProductSize(sequelize);
 modelImages(sequelize);
+modelPayment(sequelize);
 
 const {
   Product,
@@ -49,8 +52,19 @@ const {
   Size,
   ProductSize,
   Images,
+  Payment,
 } = sequelize.models;
 
+UserAdmin.beforeCreate(async (user) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+  user.password = hashedPassword;
+});
+
+// Método para comparar contraseñas
+UserAdmin.prototype.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 User.hasMany(DeliveryAddress);
 DeliveryAddress.belongsTo(User);
 
@@ -80,6 +94,9 @@ Product.belongsTo(Category);
 Product.hasMany(Images);
 Images.belongsTo(Product);
 
+Order.hasMany(Payment);
+Payment.belongsTo(Order);
+
 Order.belongsTo(DeliveryAddress);
 DeliveryAddress.hasMany(Order);
 
@@ -98,5 +115,6 @@ module.exports = {
   Size,
   ProductSize,
   Images,
+  Payment,
   db: sequelize,
 };

@@ -6,6 +6,7 @@ const {
   User,
   OrderDetail,
   Size,
+  Payment,
 } = require("../db.js");
 const mercadopago = require("mercadopago");
 const { or } = require("sequelize");
@@ -16,33 +17,7 @@ mercadopago.configure({
 
 const { REACT_APP } = process.env;
 const createOrder = async (req, res) => {
-  /* console.log(req.body.products); */
-
-  var payment_data = {
-    transaction_amount: 5000,
-    description: "Título del producto",
-    payment_method_id: "pse",
-    payer: {
-      entity_type: "individual",
-      email: req.body.user_email,
-      identification: {
-        type: "CC",
-        number: "114734866",
-      },
-    },
-    items: req.body.products.map((p) => {
-      return { title: p?.name, quantity: p?.cant, unit_price: p?.price };
-    }),
-    transaction_details: {
-      financial_institution: "1507",
-    },
-    callback_url: "https://american-shop-eco.vercel.app/",
-    back_urls: {
-      success: `${REACT_APP}/pago-realizado`,
-      failure: `${REACT_APP}/pago-cancelado`,
-      pending: `${REACT_APP}/pago-pendiente`,
-    },
-  };
+  /*   console.log(req.body); */
 
   let { products } = req.body;
   try {
@@ -70,15 +45,6 @@ const createOrder = async (req, res) => {
         ProductId: e.id,
         OrderId: orderDB.id,
       });
-      /* console.log(s); */
-      /*  await orderDB.addProduct(productDB, {
-        through: {
-          units: e.cant,
-          unitPrice: e.price,
-          totalPrice: e.price * e.cant,
-          idSize: e.idSize,
-        },
-      }); */
     });
     const datapay = req.body;
     datapay.additional_info = { ip_address: "127.0.0.1" };
@@ -99,23 +65,25 @@ const createOrder = async (req, res) => {
       }
     );
     console.log(t.data);
+    const paymerca = t.data;
+    const r = await Payment.create({
+      OrderId: orderDB.id,
+      id_pago_merca: paymerca.id,
+      net_received_amount: paymerca.transaction_details.net_received_amount,
+      net_amount: paymerca.net_amount,
+      fee_details_amount: paymerca.fee_details[0]?.amount,
+      status: paymerca.status,
+      status_detail: paymerca.status_detail,
+      external_resource_url:
+        paymerca?.transaction_details?.external_resource_url,
+    });
+    /* console.log(r); */
 
-    /* mercadopago.preferences
-      .create(payment_data)
-      .then(function (response) {
-        res.send(response.body.init_point);
-        //res.redirect({response.body.id})
-        // En esta instancia deberás asignar el valor dentro de response.body.id por el ID de preferencia solicitado en el siguiente paso
-      })
-      .catch(function (error) {
-        console.log(error);
-        res.status(400).json(error.message);
-      }); */
     return res.status(201).json({
       response: true,
       message: "CORRECTO>ORDEN REGISTRADA CORRECTAMENTE.",
       order: orderDB,
-      payment_data: t.data,
+      payment_data: r,
     });
   } catch (error) {
     console.log(error);
@@ -165,6 +133,7 @@ const getOrderById = async (req, res) => {
         /* { model: Product }, */
         { model: DeliveryAddress },
         { model: User },
+        { model: Payment },
         { model: OrderDetail, include: [{ model: Size }, { model: Product }] },
       ],
     });

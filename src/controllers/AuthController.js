@@ -1,7 +1,6 @@
 const { UserAdmin } = require("../db.js");
 const jws = require("jsonwebtoken");
-const jwt_decode = require('jwt-decode');
-
+const jwt_decode = require("jwt-decode");
 
 const authUser = async (req, res) => {
   const username = req.body.username;
@@ -10,13 +9,16 @@ const authUser = async (req, res) => {
   console.log(req.body);
 
   const userDb = await UserAdmin.findOne({
-    where: { username: username, password: password },
+    where: { username: username },
   });
+  console.log(userDb);
+  if (!userDb) return res.status(403).json({ message: "Usuario  incorrecta." });
 
-  if (!userDb)
-    return res
-      .status(403)
-      .json({ message: "Usuario o Contraseña incorrecta." });
+  try {
+    if (!(await userDb.comparePassword(password))) {
+      return res.status(403).json({ message: "Password  incorrecta." });
+    }
+  } catch (error) {}
 
   const accessToken = generateAccessToken({ username });
 

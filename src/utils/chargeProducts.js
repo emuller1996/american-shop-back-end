@@ -32,7 +32,7 @@ const chargeProducts = async () => {
       role: "Admin",
     });
     await UserAdmin.create({
-      username: "Asesor",
+      username: "asesor",
       password: "123",
       role: "Asesor",
     });
