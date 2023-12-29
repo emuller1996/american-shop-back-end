@@ -12,7 +12,8 @@ const modelProductSize = require("./models/ProductSize.js");
 const modelImages = require("./models/Images.js");
 const modelPayment = require("./models/Payment.js");
 const modelComment = require("./models/Comment.js");
-const bcrypt = require('bcrypt');
+const modelSubComment = require("./models/SubComment.js");
+const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
@@ -41,6 +42,7 @@ modelProductSize(sequelize);
 modelImages(sequelize);
 modelPayment(sequelize);
 modelComment(sequelize);
+modelSubComment(sequelize);
 
 const {
   Product,
@@ -56,6 +58,7 @@ const {
   Images,
   Payment,
   Comment,
+  SubComment,
 } = sequelize.models;
 
 UserAdmin.beforeCreate(async (user) => {
@@ -64,12 +67,15 @@ UserAdmin.beforeCreate(async (user) => {
   user.password = hashedPassword;
 });
 
+SubComment.belongsTo(Comment);
+Comment.hasMany(SubComment);
 
-Comment.belongsTo(Product)
-Product.hasMany(Comment)
 
-Comment.belongsTo(User)
-User.hasMany(Comment)
+Comment.belongsTo(Product);
+Product.hasMany(Comment);
+
+Comment.belongsTo(User);
+User.hasMany(Comment);
 
 // Método para comparar contraseñas
 UserAdmin.prototype.comparePassword = async function (password) {
@@ -127,5 +133,6 @@ module.exports = {
   Images,
   Payment,
   Comment,
+  SubComment,
   db: sequelize,
 };

@@ -6,6 +6,7 @@ const {
   Images,
   Comment,
   User,
+  SubComment,
 } = require("../db.js");
 const { Op } = require("sequelize");
 const { validate } = require("uuid");
@@ -211,7 +212,7 @@ const getCommetsByUser = async (req, res) => {
   validate(id);
   const coment = await Comment.findAll({
     where: { ProductId: id },
-    include: [User],
+    include: [{ model: User }, { model: SubComment }],
   });
   console.log(coment);
   return res.status(200).json(coment);
