@@ -9,7 +9,7 @@ const orderRouters = require("./order.routes");
 const authRouters = require("./auth.routes");
 const messagehRouters = require("./message.routes");
 const sizeRouters = require("./size.routes");
-
+const commnetsRouters = require("./commnets.routes");
 
 const router = Router();
 
@@ -23,6 +23,6 @@ router.use("/order", orderRouters);
 router.use("/auth", authRouters);
 router.use("/messages", messagehRouters);
 router.use("/sizes", sizeRouters);
-
+router.use("/comments", commnetsRouters);
 
 module.exports = router;
