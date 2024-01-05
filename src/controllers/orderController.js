@@ -74,7 +74,7 @@ const createOrder = async (req, res) => {
       fee_details_amount: paymerca.fee_details[0]?.amount,
       status: paymerca.status,
       status_detail: paymerca.status_detail,
-      payment_method: paymerca.id,
+      payment_method: paymerca.payment_method.id,
       external_resource_url:
         paymerca?.transaction_details?.external_resource_url,
     });

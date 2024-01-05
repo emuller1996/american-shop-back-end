@@ -30,15 +30,15 @@ orderRouter.post("/webhooks", async (req, res) => {
       const pago = await Payment.update(
         {
           status: payment_mercado.status,
-          net_received_amount:
-            payment_mercado.transaction_details.net_received_amount,
-          fee_details_amount: payment_mercado.fee_details[0]?.amount,
+          net_received_amount:payment_mercado?.transaction_details?.net_received_amount,
+          net_amount: payment_mercado.transaction_amount,
+          fee_details_amount: payment_mercado?.fee_details[0]?.amount,
           net_amount: payment_mercado.net_amount,
           status_detail: payment_mercado.status_detail,
         },
-
         { where: { id_pago_merca: data.data.id } }
       );
+      console.log(pago);
     } catch (error) {
       console.log(error);
     }
