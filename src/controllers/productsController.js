@@ -36,17 +36,13 @@ const getProducts = async (req, res) => {
   if (disc) where.OfferId = disc;
 
   try {
-    const products = await Product.findAndCountAll({
-      include: [{ model: Category }, { model: Images }],
+    const products = await Product.findAll({
+      include: [{ model: Category }],
       where,
       order,
-      limit: size,
-      offset: page * size,
     });
-    console.log(products.count);
     return res.status(200).json({
-      totalPages: Math.ceil(products.count / size),
-      products: products.rows,
+      products: products,
     });
   } catch {
     res.status(201).json({ error: "Product not found" });
@@ -79,7 +75,7 @@ const getProductsPublished = async (req, res) => {
 
   try {
     const products = await Product.findAndCountAll({
-      include: [{ model: Category }, { model: Images }],
+      include: [{ model: Category }],
       where,
       order,
       limit: size,

@@ -31,6 +31,14 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      payment_method: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      date_approved: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
       status_detail: {
         type: DataTypes.STRING,
         allowNull: false,
