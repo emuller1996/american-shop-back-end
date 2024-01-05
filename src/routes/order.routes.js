@@ -20,12 +20,14 @@ orderRouter.post("/webhooks", async (req, res) => {
   const data = req.body;
   if (data.action === "payment.updated") {
     try {
-      const payment_mercado = await axios.get(
-        `https://api.mercadopago.com/v1/payments/${data.data.id}`,
-        {
-          headers: { Authorization: `Bearer ${process.env.ACCESS_TOKEN}` },
-        }
-      );
+      const payment_mercado = (
+        await axios.get(
+          `https://api.mercadopago.com/v1/payments/${data.data.id}`,
+          {
+            headers: { Authorization: `Bearer ${process.env.ACCESS_TOKEN}` },
+          }
+        )
+      ).data;
       console.log(payment_mercado);
       const pago = await Payment.update(
         {
