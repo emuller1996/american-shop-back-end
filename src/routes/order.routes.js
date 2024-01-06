@@ -6,7 +6,7 @@ const {
   getOrderById,
 } = require("../controllers/orderController");
 const { login } = require("../utils/authjws.js");
-const { Payment } = require("../db.js");
+const { Payment, Order } = require("../db.js");
 const { default: axios } = require("axios");
 
 const orderRouter = Router();
@@ -46,6 +46,20 @@ orderRouter.post("/webhooks", async (req, res) => {
       console.log(error);
     }
     return res.status(200).json({});
+  }
+});
+
+orderRouter.patch("/:idOrder/", async (req, res) => {
+  req.params.idOrder;
+  const data = req.body;
+
+  try {
+    const order = await Order.update(data, {
+      where: { id: req.params.idOrder },
+    });
+    return res.status(201).json({ message: "Order Actualizada", order: order });
+  } catch (error) {
+    console.log(error);
   }
 });
 
