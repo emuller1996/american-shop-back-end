@@ -10,6 +10,7 @@ const authRouters = require("./auth.routes");
 const messagehRouters = require("./message.routes");
 const sizeRouters = require("./size.routes");
 const commnetsRouters = require("./commnets.routes");
+const paymnetsRouters = require("./payments.routes.js");
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/auth", authRouters);
 router.use("/messages", messagehRouters);
 router.use("/sizes", sizeRouters);
 router.use("/comments", commnetsRouters);
+router.use("/payments", paymnetsRouters);
 
 module.exports = router;
