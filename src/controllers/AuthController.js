@@ -2,10 +2,6 @@ import { UserAdmin } from "../db.js";
 import jsonwebtoken from "jsonwebtoken";
 import jwt_decode from "jwt-decode";
 
-
-const { verify, sign } = jsonwebtoken;
-
-
 const authUser = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -23,7 +19,6 @@ const authUser = async (req, res) => {
       return res.status(403).json({ message: "Password  incorrecta." });
     }
   } catch (error) {
-
     console.log(error);
   }
 
@@ -38,7 +33,7 @@ const authUser = async (req, res) => {
 const validateToken = async (req, res) => {
   const token = req.params.token;
 
-  verify(token, process.env.SECRECT_KEY, (err, user) => {
+  jsonwebtoken.verify(token, process.env.SECRECT_KEY, (err, user) => {
     if (err) {
       return res
         .status(405)
@@ -52,7 +47,7 @@ const validateToken = async (req, res) => {
 };
 
 const generateAccessToken = (user) => {
-  return sign(user, process.env.SECRECT_KEY, { expiresIn: "60m" });
+  return jsonwebtoken.sign(user, process.env.SECRECT_KEY, { expiresIn: "60m" });
 };
 
 export { authUser, validateToken };
