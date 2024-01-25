@@ -1,14 +1,14 @@
-const jws = require("jsonwebtoken");
-const {  UserAdmin } = require("../db.js");
+import { verify } from "jsonwebtoken";
+import { UserAdmin } from "../db.js";
 
-const { expressjwt: jwt } = require('express-jwt');
-const jwks = require('jwks-rsa');
-const jwt_decode = require('jwt-decode');
+import { expressjwt as jwt } from 'express-jwt';
+import { expressJwtSecret } from 'jwks-rsa';
+import jwt_decode from 'jwt-decode';
 
 const {AUTH0_AUDIENCE, AUTH0_ISSUER} = process.env
 
 const login = jwt({
-    secret: jwks.expressJwtSecret({
+    secret: expressJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
@@ -23,7 +23,7 @@ const login = jwt({
 const validateTokenAdmin = async (req, res, next) => {
   const accessToken = req.headers["access-token"];
   if (!accessToken) return res.status(403).json({ message: "ACCES DENIED: TOKEN NO SUMINISTRADO." });
-  jws.verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
+  verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
     if (err) {
       return res
         .status(405)
@@ -49,7 +49,7 @@ const validateTokenAdmin = async (req, res, next) => {
 const validateToken = (req, res, next) => {
   const accessToken = req.headers["access-token"];
   if (!accessToken) return res.status(403).json({ message: "ACCES DENIED: TOKEN NO SUMINISTRADO." });
-  jws.verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
+  verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
     if (err) {
       return res
         .status(405)
@@ -63,7 +63,7 @@ const validateToken = (req, res, next) => {
 
 
 
-module.exports = {
+export  {
   validateTokenAdmin,
   login,
   validateToken

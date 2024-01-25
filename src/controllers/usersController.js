@@ -1,5 +1,5 @@
-const { Op } = require("sequelize");
-const { User } = require("../db.js");
+import { Op } from "sequelize";
+import { User } from "../db.js";
 
 const getUsers = async (req, res) => {
   try {
@@ -115,7 +115,7 @@ const getUserByEmail = async (req, res) => {
   }
 };
 
-module.exports = {
+export  {
   getUsers,
   postUser,
   getUserCheck,

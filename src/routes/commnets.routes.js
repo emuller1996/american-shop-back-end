@@ -1,8 +1,8 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const { validateToken } = require("../utils/authjws.js");
-const { Comment, Product, User, SubComment } = require("../db.js");
-const { DATE } = require("sequelize");
+import { validateToken } from "../utils/authjws.js";
+import { Comment, Product, User, SubComment } from "../db.js";
+import { DATE } from "sequelize";
 
 const commentRouter = Router();
 
@@ -35,4 +35,4 @@ commentRouter.post("/:id/subcomment", validateToken, async (req, res) => {
   }
 });
 
-module.exports = commentRouter;
+export default commentRouter;

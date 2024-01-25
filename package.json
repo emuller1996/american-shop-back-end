@@ -3,6 +3,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
+  "type": "module",
   "dependencies": {
     "axios": "^0.27.2",
     "bcrypt": "^5.1.1",

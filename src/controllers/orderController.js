@@ -1,27 +1,19 @@
-const { default: axios } = require("axios");
-const {
-  Order,
-  Product,
-  DeliveryAddress,
-  User,
-  OrderDetail,
-  Size,
-  Payment,
-} = require("../db.js");
-const mercadopago = require("mercadopago");
-const { or } = require("sequelize");
-const nodemailer = require("nodemailer");
+import { default as axios } from "axios";
+import { Order, Product, DeliveryAddress, User, OrderDetail, Size, Payment } from "../db.js";
+/* import  configure  from "mercadopago"; */
+import { or } from "sequelize";
+import { createTransport } from "nodemailer";
 
-mercadopago.configure({
+/* configure({
   access_token: process.env.ACCESS_TOKEN,
-});
+}); */
 
 const { USER_MAIL_A, MAIL_PASS } = process.env;
 const { REACT_APP } = process.env;
 const createOrder = async (req, res) => {
   /*   console.log(req.body); */
 
-  const transporter = nodemailer.createTransport({
+  const transporter = createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
     secure: true,
@@ -236,7 +228,7 @@ const getOrderById = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   createOrder,
   getOrderByEmail,
   getOrderAllAdmin,

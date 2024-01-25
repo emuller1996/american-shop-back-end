@@ -1,6 +1,10 @@
-const { UserAdmin } = require("../db.js");
-const jws = require("jsonwebtoken");
-const jwt_decode = require("jwt-decode");
+import { UserAdmin } from "../db.js";
+import jsonwebtoken from "jsonwebtoken";
+import jwt_decode from "jwt-decode";
+
+
+const { verify, sign } = jsonwebtoken;
+
 
 const authUser = async (req, res) => {
   const username = req.body.username;
@@ -18,7 +22,10 @@ const authUser = async (req, res) => {
     if (!(await userDb.comparePassword(password))) {
       return res.status(403).json({ message: "Password  incorrecta." });
     }
-  } catch (error) {}
+  } catch (error) {
+
+    console.log(error);
+  }
 
   const accessToken = generateAccessToken({ username });
 
@@ -31,7 +38,7 @@ const authUser = async (req, res) => {
 const validateToken = async (req, res) => {
   const token = req.params.token;
 
-  jws.verify(token, process.env.SECRECT_KEY, (err, user) => {
+  verify(token, process.env.SECRECT_KEY, (err, user) => {
     if (err) {
       return res
         .status(405)
@@ -45,10 +52,7 @@ const validateToken = async (req, res) => {
 };
 
 const generateAccessToken = (user) => {
-  return jws.sign(user, process.env.SECRECT_KEY, { expiresIn: "60m" });
+  return sign(user, process.env.SECRECT_KEY, { expiresIn: "60m" });
 };
 
-module.exports = {
-  authUser,
-  validateToken,
-};
+export { authUser, validateToken };

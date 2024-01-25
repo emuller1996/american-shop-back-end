@@ -1,4 +1,4 @@
-const { Images, Product } = require("../db.js");
+import { Images, Product } from "../db.js";
 
 const createPostImagesByProduct = async (req, res) => {
   console.log(req.body);
@@ -29,7 +29,7 @@ const getImagesByProduct = async (req, res) => {
   }
 };
 
-module.exports = {
+export  {
   createPostImagesByProduct,
   getImagesByProduct,
 };

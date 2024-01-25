@@ -1,4 +1,4 @@
-const { Size, ProductSize, Product } = require("../db.js");
+import { Size, ProductSize, Product } from "../db.js";
 
 const createPostSize = async (req, res) => {
   console.log(req.body);
@@ -68,7 +68,7 @@ const deleteSizeProduct = async (req, res) => {
   }
 };
 
-module.exports = {
+export  {
   createPostSize,
   getAllSize,
   updateSizeProduct,

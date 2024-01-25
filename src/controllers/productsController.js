@@ -1,16 +1,7 @@
-const {
-  Product,
-  ProductSize,
-  Category,
-  Size,
-  Images,
-  Comment,
-  User,
-  SubComment,
-} = require("../db.js");
-const { Op } = require("sequelize");
-const { validate } = require("uuid");
-const jwt_decode = require("jwt-decode");
+import { Product, ProductSize, Category, Size, Images, Comment, User, SubComment } from "../db.js";
+import { Op } from "sequelize";
+import { validate } from "uuid";
+import jwt_decode from "jwt-decode";
 
 const getProducts = async (req, res) => {
   const pageNumber = Number.parseInt(req.query.page);
@@ -231,7 +222,7 @@ const postCreateCommetsByUser = async (req, res) => {
   }
 };
 
-module.exports = {
+export  {
   getProducts,
   getProductById,
   createProduct,

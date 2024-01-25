@@ -1,34 +1,38 @@
-const { Sequelize } = require("sequelize");
-const modelProduct = require("./models/Product.js");
-const modelCategory = require("./models/Category.js");
-const modelUser = require("./models/User");
-const modelDeliveryAddress = require("./models/DeliveryAddress.js");
-const modelOrder = require("./models/Order.js");
-const modelOrderDetail = require("./models/OrderDetail");
-const modelUserAdmin = require("./models/UserAdmin");
-const modelMessage = require("./models/Message");
-const modelSize = require("./models/Size");
-const modelProductSize = require("./models/ProductSize.js");
-const modelImages = require("./models/Images.js");
-const modelPayment = require("./models/Payment.js");
-const modelComment = require("./models/Comment.js");
-const modelSubComment = require("./models/SubComment.js");
-const bcrypt = require("bcrypt");
+// Importaciones de módulos
+import { Sequelize } from "sequelize";
+import modelProduct from "./models/Product.js";
+import modelCategory from "./models/Category.js";
+import modelUser from "./models/User.js";
+import modelDeliveryAddress from "./models/DeliveryAddress.js";
+import modelOrder from "./models/Order.js";
+import modelOrderDetail from "./models/OrderDetail.js";
+import modelUserAdmin from "./models/UserAdmin.js";
+import modelMessage from "./models/Message.js";
+import modelSize from "./models/Size.js";
+import modelProductSize from "./models/ProductSize.js";
+import modelImages from "./models/Images.js";
+import modelPayment from "./models/Payment.js";
+import modelComment from "./models/Comment.js";
+import modelSubComment from "./models/SubComment.js";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 
-require("dotenv").config();
+dotenv.config();
 
+// Extracción de variables de entorno
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT } = process.env;
 
-// postgresql://${{ DB_USER }}:${{ DB_PASSWORD }}@${{ DB_HOST }}:${{ DB_PORT }}/${{ DB_NAME }}
+// Configuración de la instancia de Sequelize
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=require`,
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
   {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+    logging: false,
+    native: false,
     ssl: true,
   }
 );
 
+// Definición de modelos
 modelProduct(sequelize);
 modelCategory(sequelize);
 modelUser(sequelize);
@@ -44,6 +48,7 @@ modelPayment(sequelize);
 modelComment(sequelize);
 modelSubComment(sequelize);
 
+// Extracción de modelos
 const {
   Product,
   Category,
@@ -61,6 +66,7 @@ const {
   SubComment,
 } = sequelize.models;
 
+// Hooks y relaciones
 UserAdmin.beforeCreate(async (user) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(user.password, saltRounds);
@@ -70,22 +76,17 @@ UserAdmin.beforeCreate(async (user) => {
 SubComment.belongsTo(Comment);
 Comment.hasMany(SubComment);
 
-
 Comment.belongsTo(Product);
 Product.hasMany(Comment);
 
 Comment.belongsTo(User);
 User.hasMany(Comment);
 
-// Método para comparar contraseñas
 UserAdmin.prototype.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 User.hasMany(DeliveryAddress);
 DeliveryAddress.belongsTo(User);
-
-/* Order.belongsToMany(Product, { through: OrderDetail });
-Product.belongsToMany(Order, { through: OrderDetail }); */
 
 Product.belongsToMany(Size, { through: ProductSize });
 Size.belongsToMany(Product, { through: ProductSize });
@@ -119,7 +120,8 @@ DeliveryAddress.hasMany(Order);
 Message.belongsTo(Order);
 Order.hasMany(Message);
 
-module.exports = {
+// Exportación de modelos y objeto Sequelize
+export {
   Product,
   Category,
   User,
@@ -134,5 +136,5 @@ module.exports = {
   Payment,
   Comment,
   SubComment,
-  db: sequelize,
+  sequelize as db,
 };

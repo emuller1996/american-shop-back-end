@@ -1,21 +1,8 @@
-const { Router } = require("express");
-const {
-  getProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  createSizeProduct,
-  getSizeProduct,
-  getProductsPublished,
-  getCommetsByUser,
-  postCreateCommetsByUser,
-} = require("../controllers/productsController.js");
+import { Router } from "express";
+import { getProducts, getProductById, createProduct, updateProduct, createSizeProduct, getSizeProduct, getProductsPublished, getCommetsByUser, postCreateCommetsByUser } from "../controllers/productsController.js";
 
-const {
-  createPostImagesByProduct,
-  getImagesByProduct,
-} = require("../controllers/ImagesControllers.js");
-const { validateTokenAdmin, login } = require("../utils/authjws.js");
+import { createPostImagesByProduct, getImagesByProduct } from "../controllers/ImagesControllers.js";
+import { validateTokenAdmin, login } from "../utils/authjws.js";
 const productRouter = Router();
 
 productRouter.get("/", getProducts);
@@ -36,4 +23,4 @@ productRouter.get("/:id/comments", getCommetsByUser);
 
 productRouter.put("/", validateTokenAdmin, updateProduct);
 
-module.exports = productRouter;
+export default productRouter;

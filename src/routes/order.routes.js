@@ -1,13 +1,9 @@
-const { Router } = require("express");
-const {
-  createOrder,
-  getOrderByEmail,
-  getOrderAllAdmin,
-  getOrderById,
-} = require("../controllers/orderController");
-const { login } = require("../utils/authjws.js");
-const { Payment, Order } = require("../db.js");
-const { default: axios } = require("axios");
+import { Router } from "express";
+import { login } from "../utils/authjws.js";
+import { Payment, Order } from "../db.js";
+import { default as axios } from "axios";
+
+import {createOrder, getOrderAllAdmin, getOrderByEmail, getOrderById} from "../controllers/orderController.js"
 
 const orderRouter = Router();
 
@@ -63,4 +59,4 @@ orderRouter.patch("/:idOrder/", async (req, res) => {
   }
 });
 
-module.exports = orderRouter;
+export default orderRouter;

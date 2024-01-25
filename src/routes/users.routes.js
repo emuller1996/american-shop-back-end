@@ -1,12 +1,5 @@
-const { Router } = require("express");
-const {
-  postUser,
-  getUserCheck,
-  blockUser,
-  getUserByEmail,
-  updateUser,
-  getUsers,
-} = require("../controllers/usersController.js");
+import { Router } from "express";
+import { postUser, getUserCheck, blockUser, getUserByEmail, updateUser, getUsers } from "../controllers/usersController.js";
 
 const userRouter = Router();
 
@@ -22,4 +15,4 @@ userRouter.put("/:email", updateUser);
 
 userRouter.get("/check/:email", getUserCheck);
 
-module.exports = userRouter;
+export default userRouter;

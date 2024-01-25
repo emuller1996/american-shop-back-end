@@ -1,11 +1,9 @@
-const { Router } = require("express");
-const {
-  authUser,
-  validateToken,
-} = require("../controllers/AuthController");
+import { Router } from "express";
+
+import { authUser, validateToken } from "../controllers/AuthController.js";
 
 const authRouter = Router();
 authRouter.post("/", authUser);
 authRouter.get("/validate/:token", validateToken);
 
-module.exports = authRouter;
+export default authRouter;

@@ -1,4 +1,4 @@
-const { Message } = require("../db.js");
+import { Message } from "../db.js";
 
 const getMessagesByOrder = async (req, res) => {
   const id = req.params.id;
@@ -28,7 +28,7 @@ const postCreateMessage = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getMessagesByOrder,
   postCreateMessage,
 };

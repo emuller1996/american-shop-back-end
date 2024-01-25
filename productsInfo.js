@@ -1,8 +1,8 @@
-[
+const products = [
   {
     "name": "Jordan Retro 12",
     "image": "https://cdn-images.farfetch-contents.com/17/60/96/94/17609694_38677054_1000.jpg",
-    "description": " entraron en el mercado en 1997, y junto a ellas Michael Jordan consiguió su quinto anillo, este par esta inspirado en el sol naciente japonés",
+    "description": "Entraron en el mercado en 1997, y junto a ellas Michael Jordan consiguió su quinto anillo, este par está inspirado en el sol naciente japonés",
     "price": 1099,
     "CategoryId": 2,
     "discountPercentage": 5,
@@ -55,13 +55,14 @@
     "brand": "JBL"
   },
   { 
-    "name":"CAMISETA BROOKLYN",
+    "name": "CAMISETA BROOKLYN",
     "image": "https://cdn-coejb.nitrocdn.com/xwehPRbfMJxXSNSrpjzKDZwvInqalsXe/assets/static/optimized/rev-0f228ed/wp-content/uploads/2021/03/bkrln-brooklyn-superior-3-1-768x768.png",
-    "description":"Sobre $300.000 son las compras ropa al por mayor en Cali y hacemos envíos a toda Colombia... tenemos las Camisetas Brooklyn Colombia nuevas todos los días a un precio irresistible",
-    "price":65000,
-    "CategoryId":2,
-    "stock":0,
-    "brand":"BROOKLYN"
+    "description": "Sobre $300.000 son las compras ropa al por mayor en Cali y hacemos envíos a toda Colombia... tenemos las Camisetas Brooklyn Colombia nuevas todos los días a un precio irresistible",
+    "price": 65000,
+    "CategoryId": 2,
+    "stock": 0,
+    "brand": "BROOKLYN"
   }
-  
-]
+];
+
+export default products;

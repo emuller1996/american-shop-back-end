@@ -1,6 +1,6 @@
-const { Router } = require("express");
-const { Payment, Order } = require("../db");
-const { default: axios } = require("axios");
+import { Router } from "express";
+import { Payment, Order } from "../db.js";
+import { default as axios } from "axios";
 
 const paymentsRouter = Router();
 
@@ -29,4 +29,4 @@ paymentsRouter.get("/:idPayMercado/order", async (req, res) => {
   }
 });
 
-module.exports = paymentsRouter;
+export default paymentsRouter;

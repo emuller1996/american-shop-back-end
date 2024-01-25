@@ -1,7 +1,7 @@
-const data = require("./../../productsInfo.json");
-const { Product, Category, UserAdmin, Size } = require("../db.js");
+import data from '../../productsInfo.js';
+import { Product, Category, UserAdmin, Size } from '../db.js';
 
-const chargeProducts = async () => {
+export const chargeProducts = async () => {
   try {
     const sizes = [
       { size: "7 US" },
@@ -56,5 +56,3 @@ const chargeProducts = async () => {
     console.log(error.message);
   }
 };
-
-module.exports = chargeProducts;

@@ -1,4 +1,4 @@
-const { DeliveryAddress, User } = require('../db.js');
+import { DeliveryAddress, User } from '../db.js';
 
 
 const getDeliveryAddressByUser = async (req, res) => {
@@ -46,7 +46,7 @@ const updateDeliveryAddress = async (req,res) => {
     }
 }
 
-module.exports = {
+export {
     getDeliveryAddressByUser,
     createDeliveryAddress,
     updateDeliveryAddress

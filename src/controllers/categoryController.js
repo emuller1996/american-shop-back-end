@@ -1,4 +1,4 @@
-const { Category } = require("../db.js");
+import { Category } from "../db.js";
 
 const getCategories = async (req, res) => {
   try {
@@ -48,7 +48,7 @@ const deleteCategory = async (req, res) => {
     .catch((error) => res.status(400).json(error.message));
 };
 
-module.exports = {
+export {
   getCategories,
   postCategory,
   updateCategory,

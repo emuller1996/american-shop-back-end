@@ -1,11 +1,7 @@
-const { Router } = require("express");
+import { Router } from "express";
 
-const {
-  getDeliveryAddressByUser,
-  createDeliveryAddress,
-  updateDeliveryAddress,
-} = require("../controllers/deliveryAddress.controller");
-const { login } = require("../utils/authjws.js");
+import { login } from "../utils/authjws.js";
+import { createDeliveryAddress, getDeliveryAddressByUser, updateDeliveryAddress } from "../controllers/deliveryAddress.controller.js";
 
 const deliveryAddressRouter = Router();
 
@@ -13,4 +9,4 @@ deliveryAddressRouter.get("/:email", login, getDeliveryAddressByUser);
 deliveryAddressRouter.post("/", login, createDeliveryAddress);
 deliveryAddressRouter.put("/", login, updateDeliveryAddress);
 
-module.exports = deliveryAddressRouter;
+export default deliveryAddressRouter;
