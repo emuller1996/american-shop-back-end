@@ -1,4 +1,4 @@
-import { verify } from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
 import { UserAdmin } from "../db.js";
 
 import { expressjwt as jwt } from 'express-jwt';
@@ -23,7 +23,7 @@ const login = jwt({
 const validateTokenAdmin = async (req, res, next) => {
   const accessToken = req.headers["access-token"];
   if (!accessToken) return res.status(403).json({ message: "ACCES DENIED: TOKEN NO SUMINISTRADO." });
-  verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
+  jsonwebtoken.verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
     if (err) {
       return res
         .status(405)
@@ -49,7 +49,7 @@ const validateTokenAdmin = async (req, res, next) => {
 const validateToken = (req, res, next) => {
   const accessToken = req.headers["access-token"];
   if (!accessToken) return res.status(403).json({ message: "ACCES DENIED: TOKEN NO SUMINISTRADO." });
-  verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
+  jsonwebtoken.verify(accessToken, process.env.SECRECT_KEY, (err, user) => {
     if (err) {
       return res
         .status(405)
