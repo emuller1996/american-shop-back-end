@@ -39,8 +39,6 @@ const validateToken = async (req, res) => {
         .status(405)
         .json({ message: "ERROR-> TOKEN EXPIRED OR INCORRECT" });
     } else {
-      console.log(jwt_decode(token));
-
       return res.status(200).json({ message: "Token Valid" });
     }
   });
