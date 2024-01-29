@@ -28,7 +28,6 @@ usersRouter.get("/:id", validateTokenAdmin, async (req, res) => {
 
 usersRouter.post("/", validateTokenAdmin, async (req, res) => {
   const data = req.body;
-
   try {
     const userCreate = await UserAdmin.create( data );
     return res
