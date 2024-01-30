@@ -1,9 +1,21 @@
-import { Category } from "../db.js";
+import { Category, Product } from "../db.js";
 
 const getCategories = async (req, res) => {
   try {
     const categoriesDB = await Category.findAll();
-    res.json(categoriesDB);
+    const arrPr = categoriesDB.map(async (c) => {
+      const p = await Product.findAll({ where: { CategoryId: c.id } });
+      return {
+        ...c.dataValues,
+        productCantidad: p.length,
+      };
+    });
+    const datos = await Promise.all(arrPr);
+    const all = await Product.findAll();
+    res.json([
+      { id: "", name: "Todos ", productCantidad: all.length },
+      ...datos,
+    ]);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -33,7 +45,9 @@ const updateCategory = async (req, res) => {
         id: category.id,
       },
     });
-    return res.status(202).json({response : 'CATEGORY UPDATED' ,  category : result});
+    return res
+      .status(202)
+      .json({ response: "CATEGORY UPDATED", category: result });
   } catch (error) {}
 };
 
@@ -48,9 +62,4 @@ const deleteCategory = async (req, res) => {
     .catch((error) => res.status(400).json(error.message));
 };
 
-export {
-  getCategories,
-  postCategory,
-  updateCategory,
-  deleteCategory,
-};
+export { getCategories, postCategory, updateCategory, deleteCategory };
