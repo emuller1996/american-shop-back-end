@@ -111,10 +111,10 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, image, description, price, CategoryId, brand } = req.body;
+    const { name, description, price, CategoryId, brand } = req.body;
     console.log(req.body);
     const stock = 0;
-    if (!name || !image || !description || !price || !brand)
+    if (!name  || !description || !price || !brand)
       throw Error("Invalid inputs");
 
     let productData = await Product.findAll({
@@ -130,7 +130,6 @@ const createProduct = async (req, res) => {
     await Product.create(
       {
         name,
-        image,
         description,
         price,
         stock,
@@ -154,7 +153,7 @@ const updateProduct = async (req, res) => {
         id: product.id,
       },
     });
-    return res.status(202).json({ message: "Producto Actualizado" });
+    return res.status(202).json({ message: "Producto Actualizado"});
   } catch (error) {
     return res.status(404).json({ error: error.message });
   }

@@ -40,7 +40,6 @@ export const chargeProducts = async () => {
     const ProductDB = data.map((e) =>
       Product.create({
         name: e.name,
-        image: e.image,
         description: e.description,
         price: e.price,
         CategoryId: e.CategoryId,
