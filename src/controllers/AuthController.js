@@ -8,10 +8,10 @@ const authUser = async (req, res) => {
 
   console.log(req.body);
 
-  const userDb = await UserAdmin.findOne({
+  var userDb = await UserAdmin.findOne({
     where: { username: username },
   });
-  console.log(userDb);
+  console.log(userDb.dataValues);
   if (!userDb) return res.status(403).json({ message: "Usuario  incorrecta." });
 
   try {
@@ -20,14 +20,21 @@ const authUser = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Error comparePassword" });
   }
 
-  const accessToken = generateAccessToken({ username });
-
-  return res.header("authorization", accessToken).json({
-    message: "USUARIO AUTENTICADO",
-    token: accessToken,
-  });
+  const userSend = userDb.dataValues;
+  delete userSend.password;
+  try {
+    const accessToken = generateAccessToken(userDb.dataValues);
+    return res.header("authorization", accessToken).json({
+      message: "USUARIO AUTENTICADO",
+      token: accessToken,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Error Generando Token" });
+  }
 };
 
 const validateToken = async (req, res) => {
