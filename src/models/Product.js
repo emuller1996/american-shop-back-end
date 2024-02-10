@@ -43,6 +43,16 @@ export default (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
+      is_discount: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      discount_percentage: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+      },
       published: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
