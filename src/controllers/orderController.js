@@ -1,5 +1,13 @@
 import { default as axios } from "axios";
-import { Order, Product, DeliveryAddress, User, OrderDetail, Size, Payment } from "../db.js";
+import {
+  Order,
+  Product,
+  DeliveryAddress,
+  User,
+  OrderDetail,
+  Size,
+  Payment,
+} from "../db.js";
 /* import  configure  from "mercadopago"; */
 import { or } from "sequelize";
 import { createTransport } from "nodemailer";
@@ -45,7 +53,11 @@ const createOrder = async (req, res) => {
       hmtlProducts += `<li> Producto : ${productDB.name} Precio : ${e.price} Cantidad : ${e.cant}</li>`;
       const s = await OrderDetail.create({
         units: e.cant,
-        unitPrice: e.price,
+        unitPrice: productDB.dataValues.is_discount
+          ? productDB.dataValues?.price -
+            productDB.dataValues?.price *
+              (productDB.dataValues.discount_percentage / 100)
+          : e.price,
         totalPrice: e.price * e.cant,
         SizeId: e.idSize,
         ProductId: e.id,
@@ -228,9 +240,4 @@ const getOrderById = async (req, res) => {
   }
 };
 
-export {
-  createOrder,
-  getOrderByEmail,
-  getOrderAllAdmin,
-  getOrderById,
-};
+export { createOrder, getOrderByEmail, getOrderAllAdmin, getOrderById };
