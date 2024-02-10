@@ -58,7 +58,12 @@ const createOrder = async (req, res) => {
             productDB.dataValues?.price *
               (productDB.dataValues.discount_percentage / 100)
           : e.price,
-        totalPrice: e.price * e.cant,
+        totalPrice: productDB.dataValues.is_discount
+          ? (productDB.dataValues?.price -
+              productDB.dataValues?.price *
+                (productDB.dataValues.discount_percentage / 100)) *
+            e.cant
+          : e.price * e.cant,
         SizeId: e.idSize,
         ProductId: e.id,
         OrderId: orderDB.id,
@@ -148,13 +153,15 @@ const createOrder = async (req, res) => {
       <body>
           <div class="container">
               <h2>Confirmación de Orden de Compra</h2>
-              <p>Estimado/a ${userClient.name},</p>
-              
+              <p>Estimado/a ${userClient.name},</p>              
               <p>Gracias por tu orden de compra. A continuación, te proporcionamos los detalles de tu pedido:</p>
       
               <div class="order-details">
                   <p><strong>Número de Orden:</strong> #${orderDB.id}</p>
-                  <p><strong>Fecha de Pedido:</strong> ${orderDB.purchase_date}</p>
+                  <p><strong>Fecha de Pedido:</strong> ${orderDB.dataValues?.purchase_date
+                    ?.toJSON()
+                    .substring(0, 10)}</p>
+                  <p><strong>Estado :</strong> ${orderDB.dataValues?.status}</p>
                   <!-- Agrega más detalles según tu modelo de datos -->
 
               </div>
@@ -162,6 +169,7 @@ const createOrder = async (req, res) => {
                 ${hmtlProducts}
               </ul>      
               <div class="footer">
+                  <p>Total de Compra : ${orderDB.dataValues.total_payment}</p>
                   <p>Gracias por elegir nuestros servicios. Si tienes alguna pregunta, no dudes en contactarnos.</p>
                   <p>Atentamente,<br>El equipo de AmericanShop</p>
               </div>
