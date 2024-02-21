@@ -1,20 +1,19 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-import routes from './routes/index.js';
-import cors from 'cors';
-
+import express from "express";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import routes from "./routes/index.js";
+import cors from "cors";
 
 const server = express();
 
 server.use(cors());
-server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-server.use(bodyParser.json({ limit: '50mb' }));
+server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+server.use(bodyParser.json({ limit: "50mb" }));
 server.use(cookieParser());
-server.use(morgan('dev'));
+server.use(morgan("dev"));
 
-server.use('/', routes);
+server.use("/", routes);
 
 // Error handling middleware.
 server.use((err, req, res, next) => {

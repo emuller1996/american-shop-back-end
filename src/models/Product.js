@@ -33,10 +33,10 @@ export default (sequelize) => {
       stock: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
       },
       brand: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       rating: {
         type: DataTypes.FLOAT,
@@ -56,7 +56,7 @@ export default (sequelize) => {
       published: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
     },
     {
