@@ -13,7 +13,9 @@ const getCategories = async (req, res) => {
       };
     });
     const datos = await Promise.all(arrPr);
-    const all = await Product.findAll();
+    const all = await Product.findAll({
+      where: { published: true },
+    });
     res.json([
       { id: "", name: "Todos ", productCantidad: all.length },
       ...datos,
