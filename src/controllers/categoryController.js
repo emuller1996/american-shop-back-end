@@ -4,7 +4,9 @@ const getCategories = async (req, res) => {
   try {
     const categoriesDB = await Category.findAll();
     const arrPr = categoriesDB.map(async (c) => {
-      const p = await Product.findAll({ where: { CategoryId: c.id } });
+      const p = await Product.findAll({
+        where: { CategoryId: c.id, published: true },
+      });
       return {
         ...c.dataValues,
         productCantidad: p.length,
