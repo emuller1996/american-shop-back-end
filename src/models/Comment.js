@@ -16,7 +16,7 @@ export default (sequelize) => {
       date: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue:  Date.now(), 
+        defaultValue:  Date.now, 
       },
       read: {
         type: DataTypes.BOOLEAN,

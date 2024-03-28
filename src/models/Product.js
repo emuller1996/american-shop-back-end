@@ -48,6 +48,10 @@ export default (sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
+      gender: {
+        type: DataTypes.ENUM,
+        values: ["active", "pending", "deleted"],
+      },
       discount_percentage: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -56,7 +60,7 @@ export default (sequelize) => {
       published: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: true,
       },
     },
     {

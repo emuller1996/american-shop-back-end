@@ -20,8 +20,9 @@
     "jwt-decode": "^3.1.2",
     "mercadopago": "^1.5.14",
     "morgan": "^1.10.0",
-        "nodemailer": "^6.9.8",
-        "pg": "^8.5.1",
+    "mysql2": "^3.9.3",
+    "nodemailer": "^6.9.8",
+    "pg": "^8.5.1",
     "sequelize": "^6.3.5",
     "uuid": "^9.0.1",
     "xlsx": "^0.18.5"
