@@ -50,7 +50,7 @@ export default (sequelize) => {
       },
       gender: {
         type: DataTypes.ENUM,
-        values: ["active", "pending", "deleted"],
+        values: ["Hombre", "Mujer", "Nino"],
       },
       discount_percentage: {
         type: DataTypes.FLOAT,

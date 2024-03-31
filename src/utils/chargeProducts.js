@@ -46,6 +46,7 @@ export const chargeProducts = async () => {
         rating: e.rating,
         stock: e.stock,
         brand: e.brand,
+        gender: e.gender,
       })
     );
     Promise.all(ProductDB).then(() =>

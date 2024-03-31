@@ -44,6 +44,8 @@ const getProductsPublished = async (req, res) => {
   const pageNumber = Number.parseInt(req.query.page);
   const sizeNumber = Number.parseInt(req.query.size);
   const cat = req.query.cat; //recibo la categoria x query en la variable cat
+  const gender = req.query.gender; //recibo la categoria x query en la variable cat
+
   const orderPrice = req.query.ordprice; // Se recibe por query el criterio de ordenacion EJ: &ordprice=ASC
   const search = req.query.search; // en caso de llamar este endpoint para search x query enviar EJ: &search=iPhone
   const brand = req.query.brand; // en caso de llamar este endpoint para brands x query enviar EJ: &brand=Apple
@@ -58,6 +60,7 @@ const getProductsPublished = async (req, res) => {
   if (!Number.isNaN(sizeNumber) && sizeNumber > 0 && sizeNumber < 12)
     size = sizeNumber;
   if (cat) where.CategoryId = cat;
+  if (gender) where.gender = gender;
   if (brand) where.brand = brand;
   if (orderPrice) order = [["price", orderPrice]];
   if (search?.length > 0) where.name = { [Op.iLike]: `%${search}%` };
