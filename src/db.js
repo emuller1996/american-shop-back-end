@@ -14,6 +14,8 @@ import modelImages from "./models/Images.js";
 import modelPayment from "./models/Payment.js";
 import modelComment from "./models/Comment.js";
 import modelSubComment from "./models/SubComment.js";
+import modelNotification from "./models/Notification.js";
+
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 
@@ -47,6 +49,8 @@ modelImages(sequelize);
 modelPayment(sequelize);
 modelComment(sequelize);
 modelSubComment(sequelize);
+modelNotification(sequelize);
+
 
 // Extracción de modelos
 const {
@@ -64,6 +68,7 @@ const {
   Payment,
   Comment,
   SubComment,
+  Notification,
 } = sequelize.models;
 
 // Hooks y relaciones
@@ -81,6 +86,9 @@ Product.hasMany(Comment);
 
 Comment.belongsTo(User);
 User.hasMany(Comment);
+
+Notification.belongsTo(User);
+User.hasMany(Notification);
 
 UserAdmin.prototype.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
@@ -136,5 +144,6 @@ export {
   Payment,
   Comment,
   SubComment,
+  Notification,
   sequelize as db,
 };

@@ -7,6 +7,7 @@ import {
   OrderDetail,
   Size,
   Payment,
+  Notification,
 } from "../db.js";
 /* import  configure  from "mercadopago"; */
 import { or } from "sequelize";
@@ -178,6 +179,14 @@ const createOrder = async (req, res) => {
       </html>
       `,
     });
+
+    const no = Notification.create({
+      type: "info",
+      message: "Tienes un Pedido nuevo.",
+      status: false,
+    });
+    userClient.addNotification(no);
+    userClient.save();
 
     return res.status(201).json({
       response: true,
