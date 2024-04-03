@@ -184,9 +184,8 @@ const createOrder = async (req, res) => {
       type: "info",
       message: "Tienes un Pedido nuevo.",
       status: false,
+      UserId:userClient.id
     });
-    userClient.addNotification(no);
-    userClient.save();
 
     return res.status(201).json({
       response: true,
