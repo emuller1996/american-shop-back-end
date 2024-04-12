@@ -208,9 +208,9 @@ const getCommetsByUser = async (req, res) => {
 };
 
 const postCreateCommetsByUser = async (req, res) => {
-  console.log(req.body);
   try {
     const use = await User.findOne({ where: { email: req.body.email } });
+
     const co = await Comment.create({
       comment: req.body.comment,
       ProductId: req.params.id,
@@ -223,6 +223,7 @@ const postCreateCommetsByUser = async (req, res) => {
     console.log(error);
   }
 };
+
 
 export  {
   getProducts,

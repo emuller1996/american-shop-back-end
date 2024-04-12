@@ -3,7 +3,13 @@ import { login } from "../utils/authjws.js";
 import { Payment, Order } from "../db.js";
 import { default as axios } from "axios";
 
-import {createOrder, getOrderAllAdmin, getOrderByEmail, getOrderById} from "../controllers/orderController.js"
+import {
+  createOrder,
+  getOrderAllAdmin,
+  getOrderByEmail,
+  getOrderById,
+} from "../controllers/orderController.js";
+import { crearNotificacion } from "../utils/index.js";
 
 const orderRouter = Router();
 
@@ -50,9 +56,16 @@ orderRouter.patch("/:idOrder/", async (req, res) => {
   const data = req.body;
 
   try {
+    const orderDb = await Order.findByPk();
     const order = await Order.update(data, {
       where: { id: req.params.idOrder },
     });
+    await crearNotificacion(
+      "Pedido",
+      "Tu Pedido ha Cambiado de Estado",
+      `/d/mis-pedidos/${req.params.idOrder}/`,
+      orderDb.UserId
+    );
     return res.status(201).json({ message: "Order Actualizada", order: order });
   } catch (error) {
     console.log(error);

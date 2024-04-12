@@ -12,6 +12,7 @@ import {
 /* import  configure  from "mercadopago"; */
 import { or } from "sequelize";
 import { createTransport } from "nodemailer";
+import { crearNotificacion } from "../utils/index.js";
 
 /* configure({
   access_token: process.env.ACCESS_TOKEN,
@@ -184,8 +185,14 @@ const createOrder = async (req, res) => {
       type: "info",
       message: "Tienes un Pedido nuevo.",
       status: false,
-      UserId:userClient.id
+      UserId: userClient.id,
     });
+    await crearNotificacion(
+      "Pedido",
+      "Tienes Nuevo Pedido",
+      `/d/mis-pedidos/${orderDB.id}/`,
+      userClient.id
+    );
 
     return res.status(201).json({
       response: true,

@@ -31,10 +31,26 @@ userRouter.get("/check/:email/notifications", async (req, res) => {
         email,
       },
     });
-    const r = Notification.findAll({
-      where: { UserId: user.dataValues.id, status: false },
+
+    const r = await Notification.findAll({
+      where: { UserId: user.dataValues.id },
+      order:  [['createdAt',"DESC"]]
     });
+    console.log(r);
     return res.json(r);
+  } catch (error) {
+    res.status(404).json(error.message);
+  }
+});
+
+userRouter.patch("/check/notifications/:idNoti/", async (req, res) => {
+  try {
+    const { idNoti } = req.params;
+    const noti = await Notification.findByPk(idNoti);
+    noti.status = true;
+    noti.save();
+
+    return res.json({ message: "Notificaion Leida" });
   } catch (error) {
     res.status(404).json(error.message);
   }

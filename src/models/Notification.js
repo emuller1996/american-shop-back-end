@@ -12,10 +12,15 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      link: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       status: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      
     },
     {
       timestamps: true,
