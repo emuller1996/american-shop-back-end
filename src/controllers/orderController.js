@@ -181,12 +181,12 @@ const createOrder = async (req, res) => {
       `,
     });
  
-    await crearNotificacion(
+    /* await crearNotificacion(
       "Pedido",
       "Tienes Nuevo Pedido",
       `/d/mis-pedidos/${orderDB.id}/`,
       userClient.id
-    );
+    ); */
 
     return res.status(201).json({
       response: true,
