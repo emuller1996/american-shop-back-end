@@ -1,3 +1,5 @@
+import { Notification } from "../db.js";
+
 const crearNotificacion = async (type, message, link, UserId) => {
   return await Notification.create({
     type: type,
