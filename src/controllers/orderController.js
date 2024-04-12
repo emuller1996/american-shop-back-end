@@ -180,13 +180,7 @@ const createOrder = async (req, res) => {
       </html>
       `,
     });
-
-    const no = Notification.create({
-      type: "info",
-      message: "Tienes un Pedido nuevo.",
-      status: false,
-      UserId: userClient.id,
-    });
+ 
     await crearNotificacion(
       "Pedido",
       "Tienes Nuevo Pedido",
