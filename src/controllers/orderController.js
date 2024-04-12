@@ -180,13 +180,13 @@ const createOrder = async (req, res) => {
       </html>
       `,
     });
- 
-    /* await crearNotificacion(
+
+    await crearNotificacion(
       "Pedido",
       "Tienes Nuevo Pedido",
       `/d/mis-pedidos/${orderDB.id}/`,
-      userClient.id
-    ); */
+      orderDB.UserId
+    );
 
     return res.status(201).json({
       response: true,
