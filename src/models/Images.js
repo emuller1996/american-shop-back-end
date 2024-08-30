@@ -13,6 +13,10 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      imageBase64: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
     },
     {
       timestamps: false,

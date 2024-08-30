@@ -221,7 +221,7 @@ const getOrderByEmail = async (req, res) => {
 const getOrderAllAdmin = async (req, res) => {
   try {
     const result = await Order.findAll({
-      order: [["id", "ASC"]],
+      order: [["id", "DESC"]],
       include: [{ model: User }],
     });
     console.log(result);

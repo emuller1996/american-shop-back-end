@@ -43,6 +43,10 @@ orderRouter.post("/webhooks", async (req, res) => {
         },
         { where: { id_pago_merca: data.data.id } }
       );
+
+      if(payment_mercado.status==="approved"){
+         
+      }
       console.log(pago);
     } catch (error) {
       console.log(error);
