@@ -10,8 +10,7 @@ const authUser = async (req, res) => {
     var userDb = await UserAdmin.findOne({
       where: { username: username },
     });
-    console.log(userDb.dataValues);
-    if (!userDb) return res.status(403).json({ message: "Usuario  incorrecta." });
+    if (!userDb) return res.status(403).json({ message: "Usuario incorrecta." , detail:`El usuario '${username}' no esta registrado en la base de datos.` });
     if (!(await userDb.comparePassword(password))) {
       return res.status(403).json({ message: "Password  incorrecta." });
     }
