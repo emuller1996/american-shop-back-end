@@ -5,16 +5,13 @@ import jwt_decode from "jwt-decode";
 const authUser = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-
   console.log(req.body);
-
-  var userDb = await UserAdmin.findOne({
-    where: { username: username },
-  });
-  console.log(userDb.dataValues);
-  if (!userDb) return res.status(403).json({ message: "Usuario  incorrecta." });
-
   try {
+    var userDb = await UserAdmin.findOne({
+      where: { username: username },
+    });
+    console.log(userDb.dataValues);
+    if (!userDb) return res.status(403).json({ message: "Usuario  incorrecta." });
     if (!(await userDb.comparePassword(password))) {
       return res.status(403).json({ message: "Password  incorrecta." });
     }
